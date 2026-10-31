@@ -410,6 +410,47 @@ const LIVE_STRUCTURE = {
   "售后安抚":"有任何问题随时联系客服，{service}"
 };
 
+// ===== 五国直播话术本地化模板（真实本地语言，非直译，杜绝中文漏出）=====
+// 每国每个直播阶段一套本地句式，占位符：{name}品名 {benefit}利益 {price}价格 {tag}hashtag
+// 逼单/催付/售后的差异化短句（urgency/c2a/service）已在这里做成本地语言，不再依赖 LIVE_DIFF 的中文
+const LIVE_LOCAL = {
+  "印尼": {
+    "开场暖场":"Halo semuanya, selamat datang di live kita! Hari ini aku bawakan {name}, {benefit}!",
+    "产品讲解":"{name} ini jagoannya! {benefit}, cocok buat dipakai tiap hari. Gak bikin kantong bolong!",
+    "逼单":"Harga hari ini cuma {price}, murah banget! Stok tinggal sedikit, buruan sebelum kehabisan!",
+    "催付":"Yang udah checkout, langsung bayar ya! Begitu bayar, hari ini juga langsung dikirim!",
+    "售后安抚":"Ada pertanyaan apa aja? Chat admin kita ya, bisa retur 7 hari kok, tenang aja!"
+  },
+  "泰国": {
+    "开场暖场":"สวัสดีค่ะทุกคน! วันนี้เอา {name} มาให้ทุกคนค่ะ {benefit} นะคะ!",
+    "产品讲解":"{name} ตัวนี้เด็ดจริง! {benefit} ใช้แล้วติดใจแน่นอน เหมาะกับทุกวัน",
+    "逼单":"วันนี้ราคาแค่ {price} ถูกมาก! โปรจำกัดเวลา รีบกดก่อนหมดนะคะ!",
+    "催付":"ใครกดตะกร้าแล้วรีบจ่ายเลยนะคะ จ่ายก่อนได้ของก่อน ส่งไวมาก!",
+    "售后安抚":"มีคำถามอะไรทักแอดมินได้เลยค่ะ ไม่พอใจคืนได้สบายๆ ค่ะ"
+  },
+  "越南": {
+    "开场暖场":"Chào cả nhà! Hôm nay em mang tới {name} nè, {benefit} đó mọi người ơi!",
+    "产品讲解":"{name} này xịn thật sự! {benefit}, dùng hằng ngày cực hợp lý, giá sinh viên luôn!",
+    "逼单":"Hôm nay chỉ {price}, ngon quá trời! Hàng hot, nhanh tay kẻo hết nha!",
+    "催付":"Bạn nào chốt đơn rồi thanh toán lẹ nha, ai trả trước giao trước!",
+    "售后安抚":"Có gì thắc mắc cứ nhắn admin, không vừa ý được đổi trả thoải mái nha!"
+  },
+  "菲律宾": {
+    "开场暖场":"Hey guys, welcome to our live! Today I'm bringing you {name} — {benefit}, on a budget!",
+    "产品讲解":"{name} is so worth it! {benefit}, perfect for everyday use, super sulit for the price!",
+    "逼单":"Today it's only {price} — grab yours now, limited stock, don't miss out!",
+    "催付":"If you've checked out, pay now to lock it in! First pay, first ship!",
+    "售后安抚":"Any questions? Just message our admin — hassle-free returns within 7 days!"
+  },
+  "马来西亚": {
+    "开场暖场":"Hai semua, selamat datang! Hari ni aku bawa {name}, {benefit} tau!",
+    "产品讲解":"{name} ni memang best! {benefit}, sesuai guna tiap hari, harga pun berpatutan!",
+    "逼单":"Hari ni harga cuma {price}, murah gila! Stok terhad, cepat sebelum habis!",
+    "催付":"Yang dah checkout, bayar cepat ya! Bayar dulu, barang hantar dulu!",
+    "售后安抚":"Ada soalan apa-apa? Chat admin je, boleh return 7 hari, jangan risau!"
+  }
+};
+
 const CAT_CN = {religious:"宗教文化敏感",medical:"医疗功效/AIGC效果伪造",ad_ban:"广告绝对化用语",sensitive:"政治敏感",product:"商品合规（轨二）"};
 const CAT_KEYWORDS = {
   美妆:["乳","霜","面膜","精华","粉底","口红","美白","防晒","祛痘","洗面奶","眼影","护肤","化妆","香水","唇","眼线","眉","卸妆","保湿","补水","身体乳","颈霜","爽肤水","隔离","气垫","高光","腮红"],
@@ -999,11 +1040,21 @@ function generate(){
     const d = LIVE_DIFF[country];
     const live = {};
     const liveCN = {};
+    // 本地货币价格（去掉中文"元"，加本地货币符号）
+    const priceNum = (p.price||"").replace(/[^0-9.]/g,"");
+    const priceLocal = priceNum ? `${L.currency}${priceNum}` : "";
+    const benefitL0 = benefitL1 || localizeSp(p.sellpoints[0]||"", country).benefit || "";
     for(const stage in LIVE_STRUCTURE){
       liveCN[stage] = LIVE_STRUCTURE[stage].replace("{product}",p.name).replace("{hook}",d.hook).replace("{sellpoint}",sp).replace("{scenario}",d.scenario).replace("{price}",price).replace("{urgency}",d.urgency).replace("{c2a}",d.c2a).replace("{service}",d.service);
-      // 本地语言直播话术（复用本地 CTA/语气词）
-      const lcta = L.cta[0];
-      live[stage] = `${L.exclaim[0]} ${liveCN[stage]}`;
+      // 本地语言直播话术（真实本地句式，复用本地品名/利益词/货币，绝不残留中文）
+      const tpl = (LIVE_LOCAL[country] && LIVE_LOCAL[country][stage]) || LIVE_STRUCTURE[stage];
+      const nameLFor = nameShowL;
+      const benefitLFor = benefitL0 || nameLFor;
+      live[stage] = tpl
+        .replace("{name}", nameLFor)
+        .replace("{benefit}", benefitLFor)
+        .replace("{price}", priceLocal || "harga spesial")
+        .replace("{tag}", tags[1]||"");
     }
 
     // 合规（检查本地文案 + 中文卖点）
