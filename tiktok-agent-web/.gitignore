@@ -1,0 +1,14 @@
+node_modules
+dist
+dist-single
+.env
+*.log
+.DS_Store
+# 页面保存的 EchoTik 动态凭证（含密钥，勿提交）
+echotik-credentials.json
+# 页面保存的 AI 设置（运行模式 + Agent 列表，含 Key，勿提交）
+ai-store.json
+# 页面保存的知识库（四库内容，运营维护，勿提交）
+kb-store.json
+# 打包压缩包（历史产物，勿提交）
+*.zip
