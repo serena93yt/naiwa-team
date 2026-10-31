@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>出海宝 · 东南亚 TikTok 运营智能体</title>
+<style>
+  :root{
+    --bg:#f5f7fb; --card:#ffffff; --line:#e5e9f0; --txt:#1f2937; --sub:#6b7280;
+    --brand:#2563eb; --brand2:#7c3aed; --green:#10b981; --yellow:#f59e0b; --red:#ef4444;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--txt);padding:24px 16px 60px}
+  .wrap{max-width:1080px;margin:0 auto}
+  .header{text-align:center;margin-bottom:24px}
+  .header .logo{font-size:15px;color:var(--brand);font-weight:600;letter-spacing:1px}
+  .header h1{font-size:26px;margin:8px 0 6px;font-weight:700}
+  .header h1 .grad{background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .header p{color:var(--sub);font-size:14px;line-height:1.7}
+  .badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .badge{font-size:12px;padding:4px 12px;border-radius:20px;background:#fff;border:1px solid var(--line);color:var(--sub)}
+  .badge.hl{background:#eef2ff;border-color:#c7d2fe;color:var(--brand)}
+  /* 向导步骤 */
+  .steps{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .step{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 14px}
+  .step-num{width:22px;height:22px;border-radius:50%;background:var(--brand);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .step-txt{display:flex;flex-direction:column;line-height:1.3}
+  .step-txt b{font-size:13px;color:var(--txt)}
+  .step-txt span{font-size:11.5px;color:var(--sub)}
+  .step-arrow{color:#cbd5e1;font-size:18px}
+  /* 填表式输入 */
+  .input-title{font-size:15px;font-weight:700;color:var(--txt);margin-bottom:14px}
+  .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .field.full{grid-column:1/-1}
+  .field label{font-size:13px;font-weight:600;color:var(--txt);display:block;margin-bottom:6px}
+  .field input{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;font-family:inherit;outline:none;transition:.2s}
+  .field input:focus{border-color:var(--brand)}
+  .country-check{display:flex;flex-wrap:wrap;gap:8px}
+  .cc{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--txt);background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;user-select:none}
+  .cc input{width:auto;margin:0}
+  .cc:hover{border-color:var(--brand)}
+  .trend-body{margin-top:10px}
+  .input-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .input-card label{font-size:14px;font-weight:600;display:block;margin-bottom:8px}
+  .input-card textarea{width:100%;min-height:64px;border:1.5px solid var(--line);border-radius:10px;padding:12px;font-size:14px;font-family:inherit;resize:vertical;outline:none;transition:.2s}
+  .input-card textarea:focus{border-color:var(--brand)}
+  .hint{font-size:12px;color:var(--sub);margin-top:8px}
+  .btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .btn{border:none;border-radius:10px;padding:12px 22px;font-size:14px;font-weight:600;cursor:pointer;transition:.2s;font-family:inherit}
+  .btn-primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.25)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(37,99,235,.32)}
+  .btn-ghost{background:#fff;border:1.5px solid var(--line);color:var(--txt)}
+  .btn-ghost:hover{border-color:var(--brand);color:var(--brand)}
+  .btn-danger{background:#fff;border:1.5px solid #fca5a5;color:var(--red)}
+  .btn-danger:hover{background:#fef2f2}
+  .result-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin:20px 0 12px}
+  .result-head .parsed{font-size:13px;color:var(--sub)}
+  .result-head .parsed b{color:var(--txt)}
+  .tabs{display:flex;gap:6px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:5px;width:fit-content}
+  .tab{border:none;background:transparent;padding:8px 16px;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;color:var(--sub);font-family:inherit;transition:.15s}
+  .tab.active{background:var(--brand);color:#fff}
+  .countries{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .card-top .country{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .card-top .lang{font-size:12px;color:var(--sub)}
+  .pill{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+  .pill.green{background:#ecfdf5;color:#047857}
+  .pill.yellow{background:#fffbeb;color:#b45309}
+  .pill.red{background:#fef2f2;color:#b91c1c}
+  .sec{margin-bottom:10px}
+  .sec-title{font-size:12px;font-weight:700;color:var(--brand);margin-bottom:4px;letter-spacing:.5px}
+  .sec-text{font-size:13px;line-height:1.7;color:var(--txt)}
+  .hashtags{display:flex;flex-wrap:wrap;gap:6px}
+  .tag{font-size:12px;color:var(--brand);background:#eef2ff;padding:3px 10px;border-radius:20px}
+  .script-line{font-size:12.5px;line-height:1.7;color:var(--sub);border-left:2px solid var(--line);padding-left:10px;margin:3px 0}
+  .issue{font-size:12.5px;padding:6px 10px;border-radius:8px;margin:4px 0;line-height:1.6}
+  .issue.red{background:#fef2f2;color:#b91c1c;border-left:3px solid var(--red)}
+  .issue.yellow{background:#fffbeb;color:#92400e;border-left:3px solid var(--yellow)}
+  .issue .cat{font-weight:700}
+  .live-stage{font-size:12.5px;line-height:1.7;margin:5px 0}
+  .live-stage .st{font-weight:700;color:var(--brand2)}
+  .footer{text-align:center;color:var(--sub);font-size:12px;margin-top:30px;line-height:1.8}
+  .empty{text-align:center;color:var(--sub);padding:40px;font-size:14px}
+  /* 高端塑品模块 */
+  .premium-wrap{max-width:820px;margin:0 auto}
+  .premium-intro{font-size:14px;color:var(--sub);background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px;padding:10px 14px;margin-bottom:14px}
+  .premium-block{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .premium-label{font-size:12px;font-weight:700;color:var(--brand2);letter-spacing:.5px;margin-bottom:8px}
+  .premium-body{font-size:14px;line-height:1.9;color:var(--txt)}
+  .premium-body strong{color:var(--brand)}
+  .premium-list{font-size:13px;line-height:1.8;color:var(--txt);padding-left:18px;margin:4px 0}
+  .premium-list li{margin:3px 0}
+  .premium-tip{font-size:12px;color:var(--sub);background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:10px 14px;line-height:1.7}
+  /* 成本核算模块 */
+  .cost-wrap{max-width:820px;margin:0 auto}
+  .cost-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+  .cost-field{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+  .cost-field label{font-size:12px;font-weight:600;color:var(--sub);display:block;margin-bottom:6px}
+  .cost-field input,.cost-field select{width:100%;border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;outline:none}
+  .cost-field input:focus,.cost-field select:focus{border-color:var(--brand)}
+  .cost-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:14px}
+  .cost-table th,.cost-table td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line)}
+  .cost-table th{background:#f8fafc;color:var(--sub);font-weight:600;font-size:12px}
+  .cost-table td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+  .cost-table tr.total td{background:#eef2ff;font-weight:700;color:var(--brand);border-bottom:2px solid var(--brand)}
+  .cost-pos{color:#047857}.cost-neg{color:#b91c1c}
+  .image-wrap{max-width:820px;margin:0 auto}
+  .img-scene{font-size:13px;line-height:1.7;margin:5px 0;padding:6px 10px;background:#f8fafc;border-left:3px solid var(--brand2);border-radius:0 8px 8px 0}
+  .cost-compare-title{font-size:14px;font-weight:700;color:var(--txt);margin:18px 0 8px;display:flex;align-items:center;gap:8px}
+  .cost-compare-table .best{color:var(--green);font-weight:700}
+  .cost-compare-table .worst{color:var(--red);font-weight:700}
+  .cost-compare-table td.c-neg{color:#b91c1c}
+  .cost-compare-table td.c-pos{color:#047857}
+  /* 产品核验卡片 */
+  .verify-wrap{max-width:820px;margin:0 auto}
+  .verify-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+  .verify-head{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;margin-bottom:10px}
+  .verify-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;line-height:1.7;padding:6px 0;border-bottom:1px dashed var(--line)}
+  .verify-item:last-child{border-bottom:none}
+  .verify-item .icon{flex-shrink:0}
+  .verify-item.ok{color:#047857}
+  .verify-item.warn{color:#92400e}
+  .verify-item.err{color:#b91c1c}
+  .fab-list{font-size:13px;line-height:1.8;margin:4px 0;padding-left:18px}
+  .fab-list li{margin:4px 0}
+  .fab-list .f{color:var(--sub)}
+  .fab-list .b{color:var(--brand);font-weight:600}
+  /* 爆品搜索区 */
+  .trend-wrap{margin:0 0 18px}
+  .trend-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .trend-title{font-size:15px;font-weight:700;color:var(--txt);display:flex;align-items:center;gap:6px}
+  .trend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+  .trend-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--card);transition:.15s;display:flex;flex-direction:column;gap:8px}
+  .trend-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);transform:translateY(-2px)}
+  .trend-card .tc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+  .trend-card .tc-name{font-size:13.5px;font-weight:700;color:var(--txt);line-height:1.4}
+  .trend-card .tc-rank{background:#fff7ed;color:#c2410c;font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;white-space:nowrap}
+  .trend-card .tc-meta{font-size:11.5px;color:var(--sub);line-height:1.6}
+  .trend-card .tc-stats{display:flex;gap:10px;flex-wrap:wrap}
+  .trend-card .tc-stat{font-size:11px;color:var(--sub)}
+  .trend-card .tc-stat b{color:var(--txt);font-size:12px}
+  .trend-card .tc-stat .up{color:#047857}
+  .trend-card .tc-stat .down{color:#b91c1c}
+  .tc-tags{display:flex;flex-wrap:wrap;gap:4px}
+  .tc-tag{font-size:10.5px;padding:1px 6px;border-radius:5px;background:var(--bg2);color:var(--sub)}
+  .trend-card .tc-btn{margin-top:auto;width:100%;padding:7px;border:none;border-radius:9px;background:var(--brand);color:#fff;font-size:12.5px;font-weight:700;cursor:pointer}
+  .trend-card .tc-btn:hover{filter:brightness(1.05)}
+  .trend-src{font-size:11px;color:var(--sub);margin-top:8px;line-height:1.5}
+  .trend-src a{color:var(--brand)}
+  .fbtn{border:1px solid var(--line);background:var(--bg2);color:var(--sub);border-radius:8px;cursor:pointer;transition:.15s}
+  .fbtn:hover{border-color:var(--brand);color:var(--brand)}
+  .fbtn-active{background:var(--brand);color:#fff;border-color:var(--brand)}
+  /* 顶栏 + 设置 */
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+  .topbar-right{display:flex;align-items:center;gap:10px}
+  .key-status{font-size:12px;color:var(--sub)}
+  .trend-actions{display:flex;align-items:center;gap:8px}
+  /* Key 浮层 */
+  .key-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:999;padding:16px}
+  .key-modal{background:#fff;border-radius:16px;padding:24px;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+  .key-modal-head{display:flex;align-items:center;justify-content:space-between;font-size:16px;margin-bottom:12px}
+  .key-close{border:none;background:none;font-size:18px;cursor:pointer;color:var(--sub)}
+  .key-desc{font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:14px}
+  .key-input{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;font-family:inherit;outline:none;margin-bottom:14px}
+  .key-input:focus{border-color:var(--brand)}
+  .key-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .key-note{font-size:12px;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:8px 12px;margin-top:14px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="topbar">
+      <div class="logo">🌏 出海宝</div>
+      <div class="topbar-right">
+        <span id="keyStatus" class="key-status"></span>
+        <button class="btn btn-ghost" style="padding:6px 14px;font-size:12px" onclick="openKeyPanel()">⚙️ 设置</button>
+      </div>
+    </div>
+    <h1>把产品卖到 <span class="grad">东南亚 5 国</span>，文案一句话帮你搞定</h1>
+    <p>不用懂外语、不用请运营。填上你的产品，自动帮你写好<br>印尼、泰国、越南、菲律宾、马来西亚 5 个国家的卖货文案和直播话术。</p>
+    <div class="steps">
+      <div class="step"><span class="step-num">1</span><div class="step-txt"><b>填产品</b><span>名称 + 卖点 + 价格</span></div></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><span class="step-num">2</span><div class="step-txt"><b>一键生成</b><span>5 国文案 + 图片提示词</span></div></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><span class="step-num">3</span><div class="step-txt"><b>拿去发</b><span>还能算成本、看能不能卖</span></div></div>
+    </div>
+  </div>
+
+  <div class="input-card">
+    <div class="input-title">✏️ 第 1 步 · 填你的产品</div>
+    <div class="field-grid">
+      <div class="field full">
+        <label>产品叫什么名字？</label>
+        <input type="text" id="nameInput" placeholder="例如：保湿身体乳">
+      </div>
+      <div class="field full">
+        <label>它有哪些卖点？（用逗号分开，写 1~3 个）</label>
+        <input type="text" id="sellpointInput" placeholder="例如：温和不刺激, 补水锁水">
+      </div>
+      <div class="field">
+        <label>打算卖多少钱？（人民币）</label>
+        <input type="text" id="priceInput" placeholder="例如：59">
+      </div>
+      <div class="field">
+        <label>想卖到哪些国家？</label>
+        <div class="country-check" id="countryCheck">
+          <label class="cc"><input type="checkbox" value="印尼" checked> 🇮🇩 印尼</label>
+          <label class="cc"><input type="checkbox" value="泰国" checked> 🇹🇭 泰国</label>
+          <label class="cc"><input type="checkbox" value="越南" checked> 🇻🇳 越南</label>
+          <label class="cc"><input type="checkbox" value="菲律宾" checked> 🇵🇭 菲律宾</label>
+          <label class="cc"><input type="checkbox" value="马来西亚" checked> 🇲🇾 马来西亚</label>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="generate()">🚀 一键生成卖货文案</button>
+      <button class="btn btn-ghost" onclick="fillDemo()">先看个例子</button>
+      <button class="btn btn-ghost" onclick="fillEarring()">看个高端耳环例子</button>
+    </div>
+  </div>
+
+  <div class="trend-wrap" id="trendWrap">
+    <div class="trend-bar">
+      <div class="trend-title">💡 不知道卖什么？看看最近哪些产品在东南亚好卖</div>
+      <div class="trend-actions">
+        <button class="btn btn-ghost" id="aiSelectBtn" style="padding:6px 14px;font-size:12px" onclick="aiSelect()">🤖 AI 智能选品</button>
+        <button class="fbtn fbtn-active" style="font-size:12px;padding:5px 12px" onclick="toggleTrend(this)">展开看看 ▾</button>
+      </div>
+    </div>
+    <div class="trend-body" id="trendBody" style="display:none">
+      <div class="tc-tags" style="margin-bottom:10px">
+        <button class="fbtn fbtn-active" style="font-size:12px;padding:5px 10px" onclick="filterTrend(this,'all')">全部</button>
+        <button class="fbtn" style="font-size:12px;padding:5px 10px" onclick="filterTrend(this,'印尼')">🇮🇩 印尼</button>
+        <button class="fbtn" style="font-size:12px;padding:5px 10px" onclick="filterTrend(this,'泰国')">🇹🇭 泰国</button>
+        <button class="fbtn" style="font-size:12px;padding:5px 10px" onclick="filterTrend(this,'越南')">🇻🇳 越南</button>
+        <button class="fbtn" style="font-size:12px;padding:5px 10px" onclick="filterTrend(this,'菲律宾')">🇵🇭 菲律宾</button>
+        <button class="fbtn" style="font-size:12px;padding:5px 10px" onclick="filterTrend(this,'马来西亚')">🇲🇾 马来西亚</button>
+      </div>
+      <div class="trend-grid" id="trendGrid"></div>
+      <div class="trend-src">以上是演示数据。接入真实数据平台后，可展示 TikTok 上真实的热卖商品和销量。</div>
+    </div>
+  </div>
+
+  <div id="result" style="display:none">
+    <div class="result-head">
+      <div class="parsed" id="parsedInfo"></div>
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this,'grass')">📝 卖货文案</button>
+        <button class="tab" onclick="switchTab(this,'live')">🎙️ 直播话术</button>
+        <button class="tab" onclick="switchTab(this,'image')">🎨 产品图</button>
+        <button class="tab" onclick="switchTab(this,'cost')">💰 算成本</button>
+        <button class="tab" onclick="switchTab(this,'compliance')">🛡️ 能不能卖</button>
+        <button class="tab" onclick="switchTab(this,'radar')">🔥 怎么卖得更好</button>
+        <button class="tab" onclick="switchTab(this,'verify')">🔍 检查结果</button>
+        <button class="tab" onclick="switchTab(this,'premium')">🎯 高端卖法</button>
+      </div>
+    </div>
+    <div id="grassPane" class="countries"></div>
+    <div id="verifyPane" style="display:none"></div>
+    <div id="livePane" class="countries" style="display:none"></div>
+    <div id="compliancePane" class="countries" style="display:none"></div>
+    <div id="costPane" style="display:none"></div>
+    <div id="imagePane" style="display:none"></div>
+    <div id="radarPane" style="display:none"></div>
+    <div id="premiumPane" style="display:none"></div>
+  </div>
+
+  <div class="footer">
+    各国卖货规则参考了 TikTok 官方《内容政策》、印尼/泰国/越南/马来等国的认证要求。<br>
+    生成的外语文案为演示用，正式发布前建议让当地母语朋友帮忙看一眼。
+  </div>
+</div>
+
+<!-- Key 设置浮层 -->
+<div class="key-overlay" id="keyPanel" style="display:none">
+  <div class="key-modal">
+    <div class="key-modal-head">
+      <b>⚙️ 设置 · 智能模式</b>
+      <button class="key-close" onclick="closeKeyPanel()">✕</button>
+    </div>
+    <p class="key-desc">智能模式通过<strong>本地后端代理</strong>转发 AI 请求，你的 OpenAI Key 只存在本机服务端的 <code>.env</code> 文件里，<strong>不再经过浏览器、也不会暴露给打开页面的人</strong>。</p>
+    <div class="key-statusbox" id="keyStatusBox" style="padding:12px 14px;border-radius:8px;background:#f1f5f9;font-size:13px;color:#334155;line-height:1.7">
+      正在检测代理…
+    </div>
+    <div class="key-actions">
+      <button class="btn btn-ghost" onclick="refreshProxyStatus()">🔄 重新检测</button>
+      <button class="btn btn-ghost" onclick="closeKeyPanel()">关闭</button>
+    </div>
+    <div class="key-note">🚀 启动代理：在 <code>tk-agent-demo</code> 目录运行 <code>python proxy.py</code>，Key 填在 <code>.env</code>。代理地址：<code>http://127.0.0.1:8787</code></div>
+  </div>
+</div>
+
+<script>
+// ===== 五国知识库（内嵌，来源可追溯）=====
+const KB = {
+  "印尼": {
+    flag:"🇮🇩", lang:"印尼语", religion:"伊斯兰教为主（穆斯林87%）",
+    style:"性价比 + 清真认证 + 家庭场景",
+    hook:["全场最低价，买到就是赚到！","Halal 认证，全家放心用！","印尼妈妈都在回购的好物！"],
+    cta:["点击下方链接，限时优惠别错过！","现在下单，还送赠品！","库存有限，手慢无！"],
+    sellpoints:{美妆:["Halal 认证 + 安心","平价优质 + 高性价比","本土口碑 + 回购率高"],家居:["全家适用 + 高性价比","耐用 + 口碑好"],食品:["Halal 认证 + 美味","本土口味 + 高性价比"],服饰:["时尚 + 高性价比","舒适 + 百搭"],通用:["高性价比 + 实用","品质保证 + 口碑"]},
+    hashtags:{美妆:["#CantikOnABudget","#DupeMakeupIndonesia","#skincarehemat","#makeupmurah"],家居:["#fyp","#viral","#rekomendasi","#hemat"],食品:["#fyp","#viral","#halal","#makanan"],服饰:["#fyp","#viral","#fashion","#ootd"],通用:["#fyp","#viral","#promo","#rekomendasi"]},
+    compliance:{religious:["猪肉","酒","酒精","猪油","暴露","比基尼","宗教玩笑","宗教冒犯"],medical:["治疗","治愈","消炎","抗敏","根治","美白","祛斑","脱发","祛痘","杀死细菌","消除皱纹"],ad_ban:["最好","第一","100%","绝对","最佳","最安全","纯天然","无副作用","医生推荐"],sensitive:["政治","种族"]},
+    product:{美妆:"需 KEMENKES（印尼食药监）认证；宣称 Halal 须实际有 BPJPH 认证（2026-10-17 起化妆品强制，无证最高罚 50 亿印尼盾）",食品:"需 BPJPH 清真认证；进口食品需 BPOM 注册",通用:"宣称 Halal 须有 BPJPH 认证"}
+  },
+  "泰国": {
+    flag:"🇹🇭", lang:"泰语", religion:"佛教为主",
+    style:"颜值 + 防晒场景 + 轻松幽默",
+    hook:["颜值党的秘密武器！","泰式清凉感，夏天必备！","试过一次就回不去了！"],
+    cta:["点击下单，清凉一夏！","限时特惠，赶快抢！","别犹豫，加入购物车！"],
+    sellpoints:{美妆:["亮白 + 不黏腻","防晒 + 清凉感","颜值在线 + 体验感强"],家居:["设计美观 + 实用","耐用 + 高性价比"],食品:["风味独特 + 美味","正宗 + 口碑好"],服饰:["时尚 + 显气质","舒适 + 百搭"],通用:["实用 + 高性价比","品质 + 体验好"]},
+    hashtags:{美妆:["#BeautyReview","#tiktokbeauty","#tiktokป้ายยา","#รีวิวบิวตี้"],家居:["#TikTokMadeMeBuyIt","#ThailandTikTokShop","#fyp","#ของใช้"],食品:["#TikTokMadeMeBuyIt","#fyp","#อาหาร","#อร่อย"],服饰:["#fyp","#tiktokไทย","#แฟชั่น","#ootd"],通用:["#TikTokMadeMeBuyIt","#ThailandTikTokShop","#fyp","#ของดี"]},
+    compliance:{religious:["王室","国王","皇家标志","佛像装饰","不敬","冒犯手势"],medical:["治疗","治愈","消炎","抗敏","根治","美白","祛斑","脱发","3天减肥","立刻变瘦","治疗糖尿病"],ad_ban:["最好","第一","100%","绝对","最佳","最安全","100%安全","FDA认证","医生推荐","纯天然"],sensitive:["政治"]},
+    product:{美妆:"化妆品禁止医疗功效宣称（美白/祛斑/治疗），需泰国 FDA 备案；禁止王室相关元素",食品:"需泰国 FDA 审核；禁止王室元素",通用:"禁止王室相关元素"}
+  },
+  "越南": {
+    flag:"🇻🇳", lang:"越南语", religion:"多元（佛教+民间信仰）",
+    style:"潮流 + 网红同款 + 年轻活力",
+    hook:["网红都在用的爆款！","学生党也能轻松入手！","潮流新款，抢先体验！"],
+    cta:["点击下单，做最潮的你！","限时抢购，拼手速！","热门爆款，即将售罄！"],
+    sellpoints:{美妆:["网红同款 + 潮流","高性价比 + 口碑爆款","适配湿热气候 + 持久"],家居:["潮流设计 + 实惠","实用 + 高性价比"],食品:["网红零食 + 好吃","实惠 + 口碑爆款"],服饰:["潮流 + 网红同款","舒适 + 高性价比"],通用:["实惠 + 潮流","实用 + 高性价比"]},
+    hashtags:{美妆:["#goclamdep","#reviewlamdep","#lamdep","#beautytok"],家居:["#fyp","#xuhuong","#dodung","#re"],食品:["#fyp","#xuhuong","#doan","#ngon"],服饰:["#fyp","#xuhuong","#thoitrang","#ootd"],通用:["#fyp","#xuhuong","#review","#hot"]},
+    compliance:{religious:["政治","历史敏感","领土"],medical:["治疗","治愈","消炎","抗敏","根治","美白","祛斑","脱发","7天祛斑","瞬间美白","100%治愈","绝对有效"],ad_ban:["最好","第一","100%","绝对","最佳","最安全","医生形象","医务人员推荐"],sensitive:["战争","领土争议"]},
+    product:{美妆:"化妆品禁止医疗术语（治疗/消炎/抗敏）；速效宣称（7天祛斑/瞬间美白）重罚",通用:"禁售假牙护理、未盖章贵金属"}
+  },
+  "菲律宾": {
+    flag:"🇵🇭", lang:"菲律宾英语", religion:"天主教为主",
+    style:"英语口语 + 实用 + 亲民",
+    hook:["Get that glow on a budget!","So affordable, so good!","You need this in your life!"],
+    cta:["Grab yours now, limited stock!","Order now and save big!","Don't miss out, click below!"],
+    sellpoints:{美妆:["affordable + practical","everyday use + effective","budget-friendly + trusted"],家居:["practical + durable","budget-friendly + useful"],食品:["tasty + affordable","yummy + budget-friendly"],服饰:["stylish + affordable","comfy + trendy"],通用:["practical + affordable","useful + budget-friendly"]},
+    hashtags:{美妆:["#bebot","#ForEveryKindOfBeautiful","#makeuptutorial","#glowup"],家居:["#foryou","#fyp","#tiktokph","#homefinds"],食品:["#foryou","#fyp","#foodie","#yummy"],服饰:["#foryou","#fyp","#fashion","#ootd"],通用:["#foryou","#fyp","#tiktokph","#musthave"]},
+    compliance:{religious:["宗教政治敏感"],medical:["cure","treat","heal","whitening","hair loss","acne treatment","anti-inflammatory","instant results"],ad_ban:["best","number one","100%","guaranteed","cure","FDA approved","doctor recommended","100% safe"],sensitive:["政治"]},
+    product:{美妆:"化妆品需菲律宾 FDA 批准；禁止未经批准宣称 FDA approved",通用:"禁止未经批准宣称 FDA approved"}
+  },
+  "马来西亚": {
+    flag:"🇲🇾", lang:"马来语+英语", religion:"多元（穆斯林为主）",
+    style:"多元 + 清真认证 + 双语",
+    hook:["Halal & mesra keluarga!","双语安心购，品质有保证！","多元市场好评如潮！"],
+    cta:["点击下单，安心又划算！","限时优惠，快抢！","品质保证，放心购买！"],
+    sellpoints:{美妆:["Halal 认证 + 温和","极简护肤 + 有效","品质 + 清真合规"],家居:["实用 + 品质保证","耐用 + 高性价比"],食品:["Halal 认证 + 美味","品质 + 清真合规"],服饰:["时尚 + 品质","舒适 + 百搭"],通用:["实用 + 品质","高性价比 + 口碑"]},
+    hashtags:{美妆:["#SkinTok","#BarrierRepair","#DewySkin","#BeautyTok"],家居:["#fyp","#tiktokmalaysia","#rumah","#jimat"],食品:["#FoodTok","#ViralFoodMalaysia","#fyp","#halal"],服饰:["#fyp","#tiktokmalaysia","#fashion","#ootd"],通用:["#BeautyTok","#tiktokmalaysia","#fyp","#viral"]},
+    compliance:{religious:["猪肉","酒","酒精","宗教争议","宗教冒犯"],medical:["治疗","治愈","消炎","抗敏","根治","美白","祛斑","脱发"],ad_ban:["最好","第一","100%","绝对","最佳","最安全","纯天然","无副作用"],sensitive:["种族","宗教对立"]},
+    product:{美妆:"宣称 Halal 须有 JAKIM 认证；化妆品需马来西亚 NPRA 通报",通用:"禁售矫正型隐形眼镜、仿烟草产品"}
+  }
+};
+
+// 直播差异化
+const LIVE_DIFF = {
+  "印尼":{hook:"价格打到全网最低，穆斯林家庭也能放心买",scenario:"适合全家一起用，清真认证更安心",urgency:"库存只剩最后 100 件，错过等一个月",c2a:"付款成功马上发货",service:"七天无理由退换"},
+  "泰国":{hook:"颜值党闭眼入，夏天用正合适",scenario:"清凉不黏腻，泰国这么热也扛得住",urgency:"限时秒杀，倒计时 3 分钟",c2a:"拍下 5 分钟内付款优先发",service:"不满意包退"},
+  "越南":{hook:"网红同款，学生党也能轻松入手",scenario:"潮流款，拍照发圈超好看",urgency:"热门爆款，售完即止",c2a:"拼手速，先付款先发货",service:"破损包赔"},
+  "菲律宾":{hook:"So affordable, best value for your money!",scenario:"perfect for everyday use, budget-friendly",urgency:"limited stock, grab yours now!",c2a:"checkout now before it's gone!",service:"hassle-free returns"},
+  "马来西亚":{hook:"Halal 认证，全家安心用",scenario:"多元市场好评，双语客服无忧",urgency:"限时优惠，手慢无",c2a:"付款后 24 小时内发货",service:"品质保证，放心退换"}
+};
+
+const LIVE_STRUCTURE = {
+  "开场暖场":"欢迎来到直播间，今天给大家带来 {product}，{hook}",
+  "产品讲解":"这款 {product} 的卖点是 {sellpoint}，{scenario}",
+  "逼单":"现在下单只要 {price}，{urgency}",
+  "催付":"已经拍下的宝宝抓紧付款，{c2a}",
+  "售后安抚":"有任何问题随时联系客服，{service}"
+};
+
+const CAT_CN = {religious:"宗教文化敏感",medical:"医疗功效/AIGC效果伪造",ad_ban:"广告绝对化用语",sensitive:"政治敏感",product:"商品合规（轨二）"};
+const CAT_KEYWORDS = {
+  美妆:["乳","霜","面膜","精华","粉底","口红","美白","防晒","祛痘","洗面奶","眼影","护肤","化妆","香水","唇","眼线","眉","卸妆","保湿","补水","身体乳","颈霜","爽肤水","隔离","气垫","高光","腮红"],
+  食品:["零食","饮料","咖啡","茶","糖","饼干","坚果","辣条","巧克力","糖果","蜂蜜","果干","麦片","冲泡","即食","糕点","面包"],
+  家居:["收纳","清洁","厨具","床品","灯","杯","壶","锅","榨汁","加湿器","香薰","收纳盒","拖把","扫","垃圾桶","衣架","抱枕","地毯","窗帘","置物架","挂钩","保鲜"],
+  服饰:["衣","裤","裙","帽","鞋","包","袜","围巾","外套","T恤","衬衫","连衣裙","牛仔裤","配饰","项链","耳环","戒指","手链","发夹","腰带","丝巾"],
+  数码:["耳机","充电","数据线","手机壳","支架","蓝牙","音箱","自拍","摄像头","鼠标","键盘","平板","钢化膜","充电宝","插头","转换器"],
+  母婴:["宝宝","婴儿","儿童","奶粉","尿不湿","玩具","童","辅食","奶瓶","推车"]
+};
+
+// ===== 解析产品 =====
+function parseProduct(raw){
+  const parts = raw.replace(/，/g,",").split(",").map(s=>s.trim()).filter(s=>s);
+  const name = parts[0] || "产品";
+  let sellpoints = parts.slice(1);
+  let price = "";
+  sellpoints = sellpoints.filter(p=>{
+    if(/[\d]/.test(p) && /[元¥￥]/.test(p)){ price = p; return false; }
+    return true;
+  });
+  let category = "通用";
+  for(const cat in CAT_KEYWORDS){
+    if(CAT_KEYWORDS[cat].some(kw=>raw.includes(kw))){ category = cat; break; }
+  }
+  return {name, sellpoints, price, category, raw};
+}
+
+// ===== 产品核验层（借鉴 E-ComMate「从源头防瞎编」）=====
+// 返回核验结果数组：{level:'ok'|'warn'|'err', icon, text, tip}
+function validateProduct(p){
+  const items = [];
+  const raw = p.raw || "";
+  // 1. 品名校验
+  const name = p.name;
+  if(!name || name === "产品"){
+    items.push({level:"err", icon:"⛔", text:`品名无效：「${name||"(空)"}」`, tip:"请填写真实产品名，不能为空或占位符"});
+  } else if(name.length < 2){
+    items.push({level:"err", icon:"⛔", text:`品名过短：「${name}」`, tip:"品名至少 2 个字，便于识别品类与生成可信文案"});
+  } else if(/^[\d\.\-\s]+$/.test(name)){
+    items.push({level:"err", icon:"⛔", text:`品名疑似纯数字/符号：「${name}」`, tip:"这不是有效产品名，请检查输入"});
+  } else {
+    items.push({level:"ok", icon:"✅", text:`品名有效：「${name}」`, tip:"已作为产品主体进入文案"});
+  }
+  // 2. 卖点校验
+  if(!p.sellpoints.length){
+    items.push({level:"warn", icon:"⚠️", text:"未提供卖点", tip:"缺少卖点只能生成泛泛文案，建议补充 2-3 个具体卖点（材质/功效/场景）"});
+  } else if(p.sellpoints.length === 1){
+    items.push({level:"warn", icon:"⚠️", text:`卖点偏少（仅 ${p.sellpoints.length} 个）`, tip:"建议补充到 2-3 个，营销文案才有展开空间"});
+  } else {
+    items.push({level:"ok", icon:"✅", text:`卖点 ${p.sellpoints.length} 个：${p.sellpoints.join("、")}`, tip:"已进入 FAB 利益翻译"});
+  }
+  // 3. 品类识别
+  if(p.category === "通用"){
+    items.push({level:"warn", icon:"⚠️", text:"品类未识别（按「通用」处理）", tip:"卖点/话术会退回通用模板，营销感弱；建议在卖点里带上品类词（如「保湿」「零食」「收纳」）"});
+  } else {
+    items.push({level:"ok", icon:"✅", text:`品类识别：${p.category}`, tip:"已匹配对应卖点库与 hashtag"});
+  }
+  // 4. 价格校验
+  if(!p.price){
+    items.push({level:"warn", icon:"⚠️", text:"未提供价格", tip:"文案将用「价格优惠」占位，成本核算也用默认值"});
+  } else {
+    items.push({level:"ok", icon:"✅", text:`价格：${p.price}`, tip:"已进入文案与成本核算"});
+  }
+  // 5. 高风险词预扫（跨国通用红线）
+  const riskyWords = ["治愈","根治","消炎","治疗","美白","祛斑","脱发","100%","绝对","最好","第一","最安全"];
+  const hit = riskyWords.filter(w=>raw.includes(w));
+  if(hit.length){
+    items.push({level:"warn", icon:"🔴", text:`检测到高风险宣称词：${hit.join("、")}`, tip:"这些词在 TikTok 东南亚属医疗/绝对化红线，合规预检会标红，建议删除或改为温和表述"});
+  }
+  return items;
+}
+
+// ===== FAB 卖点引擎（把「参数」翻译成「利益」，借鉴 FAB/AIDA/PAS 框架）=====
+// 卖点 → {feature特性, advantage优势, benefit利益, pain痛点}
+const FAB_DICT = {
+  // 美妆
+  "保湿":{feature:"保湿配方",benefit:"一整天水润不紧绷，秋冬也不起皮",pain:"皮肤干到脱皮、上妆卡粉"},
+  "补水":{feature:"深层补水",benefit:"像喝了水一样饱满，妆感更服帖",pain:"脸干到紧绷、怎么涂都不吸收"},
+  "温和":{feature:"温和配方",benefit:"敏感肌也能放心用，不刺痛不泛红",pain:"一用就刺痛泛红、只敢看不敢买"},
+  "不刺激":{feature:"低刺激配方",benefit:"上脸不刺痛，敏皮友好",pain:"用了火辣辣、越用越烂脸"},
+  "美白":{feature:"提亮配方",benefit:"肤色均匀透亮，素颜也敢出门",pain:"暗沉蜡黄、粉底都盖不住"},
+  "防晒":{feature:"防晒力",benefit:"通勤外出不怕晒黑晒老",pain:"一晒就黑、斑点越来越深"},
+  "亮白":{feature:"亮白成分",benefit:"由内透出的光泽感，不假白",pain:"脸色发灰、用了很多没效果"},
+  "祛痘":{feature:"祛痘配方",benefit:"痘痘瘪下去，痘印淡了更自信",pain:"爆痘反反复复、不敢照镜子"},
+  "持久":{feature:"长效持妆/持久",benefit:"从早到晚不脱妆不斑驳",pain:"出门两小时就脱妆、油光满面"},
+  "清凉":{feature:"清凉肤感",benefit:"夏天上脸冰爽降温，秒解燥热",pain:"闷热黏腻、夏天根本不想涂"},
+  "不黏腻":{feature:"清爽质地",benefit:"吸收快不糊脸，夏天也能天天用",pain:"涂完黏糊糊、睡觉都粘枕头"},
+  "控油":{feature:"控油配方",benefit:"整天清爽不油光",pain:"油到反光、粉底都挂不住"},
+  // 服饰/配饰
+  "百搭":{feature:"百搭设计",benefit:"一件搭遍衣柜，通勤约会都能用",pain:"买回去不知道怎么配、压箱底"},
+  "舒适":{feature:"舒适版型",benefit:"穿一天不勒不闷，活动自如",pain:"版型勒得慌、坐一天难受"},
+  "显气质":{feature:"提气质设计",benefit:"穿上瞬间高级，拍照上镜",pain:"穿啥都显廉价、没气场"},
+  "显瘦":{feature:"显瘦剪裁",benefit:"视觉瘦一圈，怎么穿都好看",pain:"穿什么都显胖、不敢买修身款"},
+  "材质":{feature:"优质材质",benefit:"耐用不起球不掉色，穿得久",pain:"洗两次就起球变形、像地摊货"},
+  "不掉色":{feature:"固色工艺",benefit:"洗多少次颜色都鲜亮如新",pain:"一洗就掉色、深浅不一没法穿"},
+  "不过敏":{feature:"亲肤材质",benefit:"敏感皮肤也能戴/穿，不红肿不痒",pain:"一戴就过敏红肿、只能干看着"},
+  "925银":{feature:"925银材质",benefit:"亲肤不刺激，敏感耳洞也放心",pain:"便宜耳环一戴就发炎流脓"},
+  "电镀":{feature:"多层电镀工艺",benefit:"久戴不褪色，光泽像新的",pain:"戴两周就发黑掉色、扔了可惜"},
+  "工艺":{feature:"精细工艺",benefit:"细节经得起细看，不显廉价",pain:"做工粗糙、一眼假"},
+  "外观":{feature:"高级质感外观",benefit:"第一眼就显贵，通勤约会拍照都压得住",pain:"一眼廉价、戴出去没面子"},
+  "古典":{feature:"复古古典设计",benefit:"越看越有味道，不容易过时",pain:"流行款过季就土、白花钱"},
+  "金色":{feature:"显白金色调",benefit:"衬肤色显白，黄皮黑皮都好看",pain:"颜色显黑、戴了像地摊货"},
+  "显白":{feature:"显白色调",benefit:"衬得肤色白一度，气色更好",pain:"颜色显黄显黑、不敢戴出去"},
+  "通勤":{feature:"通勤友好设计",benefit:"上班约会都能搭，利用率超高",pain:"买回来太浮夸、平时没法戴"},
+  "晚宴":{feature:"高级感设计",benefit:"正式场合也压得住，不输大牌",pain:"重要场合没件像样的、尴尬"},
+  "耐用":{feature:"耐用结构",benefit:"用得更久，省得频繁换新",pain:"用两次就坏、钱白花"},
+  // 家居
+  "收纳":{feature:"大容量收纳",benefit:"桌面房间瞬间整洁，找东西不用翻",pain:"东西乱成一团、天天找不见"},
+  "大容量":{feature:"大容量设计",benefit:"一箱装下所有，家里不再乱",pain:"装不下、东西到处堆"},
+  "清洁":{feature:"高效清洁力",benefit:"一擦就净，省时省力",pain:"擦半天还是有污渍、腰都累断了"},
+  "便携":{feature:"便携设计",benefit:"出门随拿随走，不占地方",pain:"又大又沉、带出门是负担"},
+  "加湿器":{feature:"细腻加湿",benefit:"干燥天不再口干舌燥，睡得更香",pain:"空调房干得嗓子疼、皮肤起皮"},
+  // 食品
+  "美味":{feature:"地道风味",benefit:"一口满足，追剧解馋刚刚好",pain:"买回来不好吃、又踩雷"},
+  "好吃":{feature:"好吃",benefit:"越吃越上头，回购停不下来",pain:"又踩雷了、一大包没人吃"},
+  "健康":{feature:"健康配方",benefit:"解馋没负担，吃得放心",pain:"怕胖怕添加剂、想吃不敢吃"},
+  "低糖":{feature:"低糖配方",benefit:"甜而不腻，控糖也能吃",pain:"太甜腻、吃了有罪恶感"},
+  // 数码
+  "快充":{feature:"快充技术",benefit:"半小时回血大半，出门不焦虑",pain:"充半天才一点点、急死人"},
+  "蓝牙":{feature:"蓝牙连接",benefit:"摆脱线材束缚，随手连随手用",pain:"线缠成一团、还得找插口"},
+  "续航":{feature:"长续航",benefit:"用一天不用充，出门不慌",pain:"两小时就没电、关键时候掉链子"}
+};
+
+// 根据卖点字符串匹配 FAB（模糊匹配）
+function matchFAB(sp){
+  // 先精确匹配
+  for(const key in FAB_DICT){
+    if(sp.includes(key)) return FAB_DICT[key];
+  }
+  // 模糊：取 sp 里 2 字以上片段尝试
+  const segs = sp.match(/[\u4e00-\u9fa5a-zA-Z]{2,}/g) || [];
+  for(const seg of segs){
+    for(const key in FAB_DICT){
+      if(key.includes(seg) && seg.length>=2) return FAB_DICT[key];
+    }
+  }
+  return null;
+}
+
+// 生成一条卖点的「痛点 → 利益」营销句
+function fabSentence(sp, country){
+  const fab = matchFAB(sp);
+  if(fab){
+    // 痛点开场（PAS 的 P） + 利益（FAB 的 B）
+    return {pain:fab.pain, benefit:fab.benefit, feature:fab.feature, hit:true};
+  }
+  // 未命中：退化为「这个卖点带来实打实的好处」
+  return {pain:null, benefit:`${sp} 带来实打实的好处，用了就回不去`, feature:sp, hit:false};
+}
+
+// 组装一条有营销感的种草文案（本地语言 + 中文对照，AIDA 结构）
+function buildGrass(p, country){
+  const m = KB[country];
+  const L = LOCAL_COPY[country];
+  const sps = p.sellpoints;
+  const mainSp = sps[0] || "优质好物";
+  const fab1 = fabSentence(mainSp, country);
+  const price = p.price || "";
+
+  // ---- 本地语言版（发布用）----
+  // 0. 品名本地化（品类词→本地词，专有词→中性指代，绝不残留中文）
+  const nameL = localizeName(p.name, country);
+  const neutral = {印尼:"produk ini",泰国:"ตัวนี้",越南:"món này",菲律宾:"this one",马来西亚:"produk ni"}[country];
+  const nameShowL = nameL || neutral;
+  // 1. 从卖点列表里挑「命中本地词库」的卖点（未命中的跳过，绝不塞中文）
+  const hitLocs = [];
+  for(const sp of sps){
+    const loc = localizeSp(sp, country);
+    if(loc.benefit) hitLocs.push(loc);
+  }
+  const loc1 = hitLocs[0] || null;   // 主卖点（第一个命中的）
+  const loc2 = hitLocs[1] || null;   // 次级卖点（第二个命中的）
+  const benefitL1 = loc1 ? loc1.benefit : "";
+  const painL = loc1 ? loc1.pain : null;
+  // 2. 本地开场 hook（痛点式，优先用本地痛点，否则用本地利益/中性表达）
+  let hookL = L.hookTpl[0]
+    .replace("{pain}", painL || benefitL1 || nameShowL)
+    .replace("{name}", nameShowL)
+    .replace("{benefit}", benefitL1 || nameShowL);
+  // 3. 主利益句（本地语言；卖点全部未命中时退化为「品名 + 本地通用赞美」）
+  const benefitLineL = benefitL1 ? `${nameShowL} — ${benefitL1}.` : `${nameShowL} — ${L.exclaim[0]}`;
+  // 4. 次级卖点（本地语言，用本地连接词）
+  let moreLineL = "";
+  if(loc2 && loc2.benefit !== benefitL1){
+    moreLineL = ` ${L.exclaim[0]} ${L.link} ${loc2.benefit}!`;
+  }
+  // 5. 家庭/清真本地化加分句（印尼/马来）
+  let familyL = "";
+  if(L.family && (country==="印尼"||country==="马来西亚")) familyL = ` ${L.family}`;
+  // 6. CTA + 价格（本地货币 + 本地"只要"）
+  let priceL = "";
+  if(price){
+    const num = price.replace(/[^\d.]/g,'');
+    const justWord = {印尼:"cuma",泰国:"แค่",越南:"chỉ",菲律宾:"only",马来西亚:"cuma"}[country];
+    if(num) priceL = ` ${L.currency}${num} ${justWord}`;
+  }
+  const ctaL = L.cta[0];
+  const local = `${hookL} ${benefitLineL}${moreLineL}${familyL}${priceL} ${ctaL}`;
+
+  // ---- 中文对照版（运营核对用）----
+  let hookCN;
+  if(fab1.pain){
+    const painQs = {
+      "印尼":`还在为${fab1.pain}发愁？`,
+      "泰国":`${fab1.pain}的姐妹看过来！`,
+      "越南":`${fab1.pain}？试试这个！`,
+      "菲律宾":`还在为${fab1.pain}烦恼？`,
+      "马来西亚":`还在为${fab1.pain}烦恼？`
+    };
+    hookCN = painQs[country] || `${fab1.pain}？别忍了！`;
+  } else {
+    hookCN = m.hook[0];
+  }
+  const benefitLineCN = `${p.name}——${fab1.feature ? fab1.feature + "，" : ""}${fab1.benefit}`;
+  let moreLineCN = "";
+  if(sps.length >= 2){
+    const fab2 = fabSentence(sps[1], country);
+    moreLineCN = `而且它还${sps[1]}，${fab2.benefit}。`;
+  }
+  const ctaCN = m.cta[0];
+  const cn = `${hookCN} ${benefitLineCN}。${moreLineCN} 现在下单只要${price}，${ctaCN}`;
+
+  return {local, cn};
+}
+
+// ===== 五国本地化营销语料库（真实语料，非直译，来源见注释）=====
+// 结构：hookTpl(痛点开场模板) / cta(行动号召) / exclaim(口语语气词) / localFab(高频卖点本地化短语 {benefit利益, pain痛点}) / currency(货币符号)
+const LOCAL_COPY = {
+  "印尼": {
+    currency:"Rp",
+    hookTpl:["Gak mau lagi beli yang {pain}?","Wah, {name} ini bagus banget!","Buat kamu yang lagi cari {benefit}!"],
+    cta:["Murah banget nih hari, langsung checkout ya!","Klik keranjang kuning sekarang, stok terbatas!","Jangan sampai kehabisan, order sekarang!"],
+    exclaim:["Wah!","Keren abis!","Ayo borong!"],
+    family:"Beli buat keluarga juga bisa!",
+    link:"dan juga",
+    localFab:{
+      "保湿":{benefit:"kulit lembap seharian",pain:"kulit kering & kusam"},
+      "补水":{benefit:"kulit kenyal terhidrasi",pain:"kulit kering mengelupas"},
+      "温和":{benefit:"lembut di kulit sensitif",pain:"kulit iritasi & perih"},
+      "美白":{benefit:"kulit cerah merata",pain:"kulit kusam & belang"},
+      "防晒":{benefit:"lindungi dari sinar matahari",pain:"kulit gosong kena matahari"},
+      "百搭":{benefit:"cocok dipadu-padankan",pain:"susah dipadukan"},
+      "便宜":{benefit:"harganya murah banget",pain:"harga mahal"},
+      "耐用":{benefit:"awet tahan lama",pain:"cepat rusak"},
+      "清真":{benefit:"Halal terjamin",pain:"ragu kehalalan"}
+    }
+  },
+  "泰国": {
+    currency:"฿",
+    hookTpl:["เพื่อนๆคะ ใครมีปัญหา {pain} บ้าง?","ตัวนี้ดีมากจริงๆ นะ! {name}","ใครอยาก {benefit} ห้ามพลาด!"],
+    cta:["ถูกมากๆเลย กดสั่งเลยนะคะ!","โปรนี้มีจำกัด รีบกดก่อนหมด!","ใส่ตะกร้าเลยค่ะ ส่งไวมาก!"],
+    exclaim:["ดีมาก!","ถูกมากๆ!","สุดยอด!"],
+    family:"",
+    link:"แถมยัง",
+    localFab:{
+      "保湿":{benefit:"ผิวชุ่มชื้นทั้งวัน",pain:"ผิวแห้งกร้าน"},
+      "补水":{benefit:"ผิวฉ่ำน้ำเด้งฟู",pain:"ผิวแห้งลอกเป็นขุย"},
+      "温和":{benefit:"อ่อนโยนต่อผิวแพ้ง่าย",pain:"ผิวระคายเคืองแสบ"},
+      "美白":{benefit:"ผิวขาวกระจ่างใส",pain:"ผิวหมองคล้ำ"},
+      "防晒":{benefit:"กันแดด ไม่หมอง",pain:"ผิวไหม้แดด"},
+      "百搭":{benefit:"แมทช์ได้ทุกชุด",pain:"แต่งตัวยาก"},
+      "便宜":{benefit:"ราคาถูกมาก",pain:"ราคาแพง"},
+      "耐用":{benefit:"ทนทานใช้ได้นาน",pain:"พังเร็ว"},
+      "清真":{benefit:"ฮาลาลรับรอง",pain:"ไม่แน่ใจฮาลาล"}
+    }
+  },
+  "越南": {
+    currency:"₫",
+    hookTpl:["Mọi người ơi, ai đang bị {pain}?","{name} này xịn thật sự luôn!","Muốn {benefit}? Deal này ngon áp lực!"],
+    cta:["Chốt đơn lẹ kẻo hết mã nha!","Săn deal này trước khi hết!","Mua lẹ kẻo hết màu hot!"],
+    exclaim:["Xịn!","Ngon!","Đỉnh của chóp!"],
+    family:"",
+    link:"hơn nữa",
+    localFab:{
+      "保湿":{benefit:"da ẩm mịn cả ngày",pain:"da khô ráp"},
+      "补水":{benefit:"da căng mọng",pain:"da khô bong tróc"},
+      "温和":{benefit:"dịu nhẹ cho da nhạy cảm",pain:"da kích ứng rát"},
+      "美白":{benefit:"da sáng đều màu",pain:"da xỉn màu"},
+      "防晒":{benefit:"chống nắng, không xỉn",pain:"da cháy nắng"},
+      "百搭":{benefit:"dễ phối đồ",pain:"khó phối đồ"},
+      "便宜":{benefit:"giá quá ngon",pain:"giá đắt"},
+      "耐用":{benefit:"bền, dùng lâu",pain:"mau hỏng"},
+      "清真":{benefit:"Halal chuẩn",pain:"không chắc halal"}
+    }
+  },
+  "菲律宾": {
+    currency:"₱",
+    hookTpl:["Tired of {pain}?","{name}? Get that glow on a budget!","Want {benefit}? This is it!"],
+    cta:["Grab yours now, limited stock!","Order now and save big!","Don't miss out, check out now!"],
+    exclaim:["So affordable!","Super sulit!","Must-have!"],
+    family:"",
+    link:"plus",
+    localFab:{
+      "保湿":{benefit:"all-day hydration",pain:"dry, dull skin"},
+      "补水":{benefit:"deep moisture",pain:"flaky, parched skin"},
+      "温和":{benefit:"gentle on sensitive skin",pain:"stinging, irritated skin"},
+      "美白":{benefit:"brighter, even tone",pain:"dull, uneven skin"},
+      "防晒":{benefit:"sun protection",pain:"sunburn & dark spots"},
+      "百搭":{benefit:"easy to match",pain:"hard to pair"},
+      "便宜":{benefit:"budget-friendly",pain:"overpriced"},
+      "耐用":{benefit:"durable, long-lasting",pain:"breaks easily"},
+      "清真":{benefit:"Halal-certified",pain:"unsure if halal"}
+    }
+  },
+  "马来西亚": {
+    currency:"RM",
+    hookTpl:["Siapa yang selalu ada masalah {pain}?","{name} ni memang best gila!","Nak {benefit}? Jangan lepaskan!"],
+    cta:["Harga murah gila, order sekarang!","Stok terhad, cepat tekan link!","Jangan tunggu lagi, checkout terus!"],
+    exclaim:["Best!","Murah gila!","Wajib cuba!"],
+    family:"Mesra keluarga & Halal!",
+    link:"lagipun",
+    localFab:{
+      "保湿":{benefit:"kulit lembap sepanjang hari",pain:"kulit kering kusam"},
+      "补水":{benefit:"kulit terhidrat gebu",pain:"kulit kering merekah"},
+      "温和":{benefit:"lembut untuk kulit sensitif",pain:"kulit pedih merengsa"},
+      "美白":{benefit:"kulit cerah sekata",pain:"kulit kusam tak sekata"},
+      "防晒":{benefit:"perlindungan matahari",pain:"kulit terbakar matahari"},
+      "百搭":{benefit:"mudah dipadankan",pain:"susah nak padan"},
+      "便宜":{benefit:"harga murah",pain:"harga mahal"},
+      "耐用":{benefit:"tahan lama",pain:"cepat rosak"},
+      "清真":{benefit:"Halal dijamin",pain:"ragu halal"}
+    }
+  }
+};
+
+// 把中文卖点翻译成对应国家的本地语言短语（返回 {benefit, pain}）
+function localizeSp(sp, country){
+  const map = LOCAL_COPY[country].localFab;
+  // 先查高频卖点本地化映射
+  for(const key in map){
+    if(sp.includes(key)) return map[key];
+  }
+  // 兜底：卖点未命中词库时，本地文案不硬塞中文，返回空标记（由调用方用中性表达替代）
+  return {benefit:null, pain:null};
+}
+
+// ===== 品类本地名词库（解决「品名中文漏进本地文案」）=====
+// 把中文品名里的品类词替换成当地语言通用品类词，专有品牌/规格词用中性指代兜底
+const CAT_LOCAL = {
+  "印尼":{
+    "身体乳":"body lotion","面霜":"krim wajah","面膜":"masker wajah","精华":"serum","防晒":"sunscreen","口红":"lipstik","粉底":"foundation","洗面奶":"facial wash","爽肤水":"toner","香水":"parfum",
+    "耳环":"anting","项链":"kalung","戒指":"cincin","手链":"gelang","发夹":"jepit rambut","帽子":"topi","围巾":"syal","袜子":"kaus kaki","T恤":"kaos","连衣裙":"gaun","牛仔裤":"celana jeans","鞋":"sepatu","包":"tas",
+    "杯":"gelas","壶":"teko","锅":"panci","榨汁":"juicer","加湿器":"humidifier","香薰":"aromatherapy","收纳":"kotak penyimpanan","垃圾桶":"tempat sampah","衣架":"gantungan baju","抱枕":"bantal sofa","地毯":"karpet",
+    "耳机":"earphone","充电宝":"power bank","数据线":"kabel data","手机壳":"casing hp","蓝牙":"bluetooth","音箱":"speaker","支架":"holder","鼠标":"mouse","键盘":"keyboard",
+    "零食":"camilan","咖啡":"kopi","茶":"teh","饼干":"biskuit","坚果":"kacang","巧克力":"cokelat","蜂蜜":"madu","麦片":"sereal",
+    "奶瓶":"botol susu","玩具":"mainan","尿不湿":"popok","推车":"stroller"
+  },
+  "泰国":{
+    "身体乳":"บอดี้โลชั่น","面霜":"ครีมบำรุงผิวหน้า","面膜":"มาส์กหน้า","精华":"เซรั่ม","防晒":"กันแดด","口红":"ลิปสติก","粉底":"รองพื้น","洗面奶":"โฟมล้างหน้า","爽肤水":"โทนเนอร์","香水":"น้ำหอม",
+    "耳环":"ต่างหู","项链":"สร้อยคอ","戒指":"แหวน","手链":"สร้อยข้อมือ","发夹":"กิ๊บติดผม","帽子":"หมวก","围巾":"ผ้าพันคอ","袜子":"ถุงเท้า","T恤":"เสื้อยืด","连衣裙":"เดรส","牛仔裤":"กางเกงยีนส์","鞋":"รองเท้า","包":"กระเป๋า",
+    "杯":"แก้ว","壶":"กาน้ำ","锅":"หม้อ","榨汁":"เครื่องคั้นน้ำผลไม้","加湿器":"เครื่องทำความชื้น","香薰":"อโรมา","收纳":"กล่องเก็บของ","垃圾桶":"ถังขยะ","衣架":"ไม้แขวนเสื้อ","抱枕":"หมอนอิง","地毯":"พรม",
+    "耳机":"หูฟัง","充电宝":"พาวเวอร์แบงค์","数据线":"สายชาร์จ","手机壳":"เคสมือถือ","蓝牙":"บลูทูธ","音箱":"ลำโพง","支架":"ขาตั้ง","鼠标":"เมาส์","键盘":"คีย์บอร์ด",
+    "零食":"ขนมขบเคี้ยว","咖啡":"กาแฟ","茶":"ชา","饼干":"คุกกี้","坚果":"ถั่ว","巧克力":"ช็อกโกแลต","蜂蜜":"น้ำผึ้ง","麦片":"ซีเรียล",
+    "奶瓶":"ขวดนม","玩具":"ของเล่น","尿不湿":"ผ้าอ้อม","推车":"รถเข็นเด็ก"
+  },
+  "越南":{
+    "身体乳":"sữa dưỡng thể","面霜":"kem dưỡng mặt","面膜":"mặt nạ","精华":"serum","防晒":"kem chống nắng","口红":"son môi","粉底":"kem nền","洗面奶":"sữa rửa mặt","爽肤水":"toner","香水":"nước hoa",
+    "耳环":"bông tai","项链":"vòng cổ","戒指":"nhẫn","手链":"vòng tay","发夹":"kẹp tóc","帽子":"mũ","围巾":"khăn quàng","袜子":"tất","T恤":"áo thun","连衣裙":"đầm","牛仔裤":"quần jean","鞋":"giày","包":"túi",
+    "杯":"cốc","壶":"ấm","锅":"nồi","榨汁":"máy ép","加湿器":"máy tạo ẩm","香薰":"tinh dầu","收纳":"hộp đựng đồ","垃圾桶":"thùng rác","衣架":"móc quần áo","抱枕":"gối ôm","地毯":"thảm",
+    "耳机":"tai nghe","充电宝":"sạc dự phòng","数据线":"cáp sạc","手机壳":"ốp điện thoại","蓝牙":"bluetooth","音箱":"loa","支架":"giá đỡ","鼠标":"chuột","键盘":"bàn phím",
+    "零食":"đồ ăn vặt","咖啡":"cà phê","茶":"trà","饼干":"bánh quy","坚果":"hạt","巧克力":"socola","蜂蜜":"mật ong","麦片":"ngũ cốc",
+    "奶瓶":"bình sữa","玩具":"đồ chơi","尿不湿":"tã bỉm","推车":"xe đẩy"
+  },
+  "菲律宾":{
+    "身体乳":"body lotion","面霜":"face cream","面膜":"face mask","精华":"serum","防晒":"sunscreen","口红":"lipstick","粉底":"foundation","洗面奶":"facial wash","爽肤水":"toner","香水":"perfume",
+    "耳环":"earrings","项链":"necklace","戒指":"ring","手链":"bracelet","发夹":"hair clip","帽子":"hat","围巾":"scarf","袜子":"socks","T恤":"t-shirt","连衣裙":"dress","牛仔裤":"jeans","鞋":"shoes","包":"bag",
+    "杯":"cup","壶":"kettle","锅":"pot","榨汁":"juicer","加湿器":"humidifier","香薰":"aromatherapy","收纳":"storage box","垃圾桶":"trash bin","衣架":"hanger","抱枕":"throw pillow","地毯":"rug",
+    "耳机":"earphones","充电宝":"power bank","数据线":"charging cable","手机壳":"phone case","蓝牙":"bluetooth","音箱":"speaker","支架":"holder","鼠标":"mouse","键盘":"keyboard",
+    "零食":"snacks","咖啡":"coffee","茶":"tea","饼干":"biscuits","坚果":"nuts","巧克力":"chocolate","蜂蜜":"honey","麦片":"cereal",
+    "奶瓶":"feeding bottle","玩具":"toys","尿不湿":"diapers","推车":"stroller"
+  },
+  "马来西亚":{
+    "身体乳":"losyen badan","面霜":"krim muka","面膜":"masker muka","精华":"serum","防晒":"pelindung matahari","口红":"gincu","粉底":"asas solek","洗面奶":"pencuci muka","爽肤水":"toner","香水":"minyak wangi",
+    "耳环":"anting-anting","项链":"rantai leher","戒指":"cincin","手链":"gelang tangan","发夹":"klip rambut","帽子":"topi","围巾":"selendang","袜子":"stokin","T恤":"baju-T","连衣裙":"gaun","牛仔裤":"seluar jeans","鞋":"kasut","包":"beg",
+    "杯":"cawan","壶":"cerek","锅":"periuk","榨汁":"pemerah jus","加湿器":"humidifier","香薰":"aroma terapi","收纳":"kotak simpanan","垃圾桶":"tong sampah","衣架":"penyangkut baju","抱枕":"bantal peluk","地毯":"permaidani",
+    "耳机":"fon telinga","充电宝":"power bank","数据线":"kabel data","手机壳":"sarung telefon","蓝牙":"bluetooth","音箱":"pembesar suara","支架":"pemegang","鼠标":"tetikus","键盘":"papan kekunci",
+    "零食":"snek","咖啡":"kopi","茶":"teh","饼干":"biskut","坚果":"kacang","巧克力":"coklat","蜂蜜":"madu","麦片":"bijirin",
+    "奶瓶":"botol susu","玩具":"mainan","尿不湿":"lampin","推车":"kereta sorong"
+  }
+};
+
+// 把中文品名本地化：品类词→本地词，其余专有词用中性指代，绝不残留中文
+function localizeName(name, country){
+  const map = CAT_LOCAL[country];
+  // 命中品类词 → 用本地品类词（若还有品牌/规格前缀，保留品牌英文/数字部分）
+  for(const cn in map){
+    if(name.includes(cn)){
+      let local = map[cn];
+      // 提取品名里的英文/数字前缀（品牌名、型号），拼接在本地品类词前
+      const brand = name.replace(/[^\x00-\x7FA-Za-z0-9]/g,' ').match(/[A-Za-z0-9]+/g) || [];
+      const prefix = brand.filter(b=>!(/^\d+$/.test(b))).slice(0,1).join(' ');
+      return prefix ? `${prefix} ${local}` : local;
+    }
+  }
+  // 未命中品类词：品名是专有名词，本地文案用中性指代，绝不漏中文
+  return null;
+}
+
+// ===== 合规检查（双轨）=====
+function checkCompliance(text, country){
+  const rules = KB[country].compliance;
+  const issues = [];
+  for(const cat in rules){
+    for(const w of rules[cat]){
+      if(text.includes(w)){
+        const level = (cat==="religious"||cat==="sensitive"||cat==="medical") ? "red" : "yellow";
+        issues.push({level, cat, word:w});
+      }
+    }
+  }
+  // 轨二：商品合规
+  const prod = KB[country].product;
+  const prodNote = prod[window._category] || prod["通用"];
+  if(prodNote){
+    issues.push({level:"yellow", cat:"product", word:`[商品合规·${window._category}] ${prodNote}`});
+  }
+  return issues;
+}
+
+function overallLevel(issues){
+  if(issues.some(i=>i.level==="red")) return "red";
+  if(issues.some(i=>i.level==="yellow")) return "yellow";
+  return "green";
+}
+
+// ===== 生成 =====
+let currentData = null;
+let currentTab = "grass";
+let productInfo = null;
+
+// ===== LLM 接入（经本地代理转发，Key 只留在服务端 .env，不出浏览器）=====
+const LLM_CONFIG = {
+  endpoint: "http://127.0.0.1:8787/chat",  // 本地代理接口
+  healthUrl: "http://127.0.0.1:8787/health",
+  model: "gpt-4o-mini",          // 便宜、快，够用；可换成 gpt-4o
+  timeoutMs: 20000               // 20 秒超时，超时自动退回词库
+};
+// 代理在线状态（由 healthCheck() 异步刷新，缓存结果）
+let _proxyOnline = null;
+
+// 探测本地代理是否在线（并确认服务端已配 Key）
+async function healthCheck(){
+  try{
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>ctrl.abort(), 3000);
+    const res = await fetch(LLM_CONFIG.healthUrl, { signal: ctrl.signal });
+    clearTimeout(t);
+    if(!res.ok) return _proxyOnline = false;
+    const data = await res.json();
+    return _proxyOnline = !!(data && data.ok && data.configured);
+  }catch(e){
+    return _proxyOnline = false;
+  }
+}
+// 判断是否可用（同步：若还没探测过，按“未启用”处理，generate 前会先 healthCheck）
+function hasApiKey(){ return _proxyOnline === true; }
+
+// 调用 LLM（经本地代理），成功返回文本，失败/超时返回 null（由调用方兜底）
+async function callLLM(messages){
+  const controller = new AbortController();
+  const timer = setTimeout(()=>controller.abort(), LLM_CONFIG.timeoutMs);
+  try{
+    const res = await fetch(LLM_CONFIG.endpoint, {
+      method: "POST",
+      headers: { "Content-Type":"application/json" },   // 不再发 Authorization，Key 在服务端
+      body: JSON.stringify({ model: LLM_CONFIG.model, messages, temperature: 0.8, max_tokens: 1500 }),
+      signal: controller.signal
+    });
+    if(!res.ok){ console.warn("LLM 请求失败", res.status); return null; }
+    const data = await res.json();
+    return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || null;
+  }catch(e){
+    console.warn("LLM 调用异常，退回词库：", e.message);
+    return null;
+  }finally{
+    clearTimeout(timer);
+  }
+}
+
+// 收集新表单输入 → 构造 product 对象（兼容国家勾选）
+function collectInput(){
+  const name = (document.getElementById("nameInput").value||"").trim();
+  const sellpointRaw = (document.getElementById("sellpointInput").value||"").trim();
+  const priceRaw = (document.getElementById("priceInput").value||"").trim();
+  // 选中的国家
+  const checked = [];
+  document.querySelectorAll("#countryCheck input[type=checkbox]").forEach(c=>{ if(c.checked) checked.push(c.value); });
+  const sellpoints = sellpointRaw ? sellpointRaw.replace(/，/g,",").split(",").map(s=>s.trim()).filter(s=>s) : [];
+  const price = priceRaw ? priceRaw + "元" : "";
+  // 拼接成 raw 供品类识别和人群识别
+  const raw = [name, ...sellpoints, price].join(",");
+  const p = parseProduct(raw);
+  p.selectedCountries = checked.length ? checked : Object.keys(KB);
+  return p;
+}
+
+// 用 LLM 生成五国种草文案，返回 {国家: {local, cn}}，失败返回 null
+async function buildGrassViaLLM(p, countryList){
+  const countryNames = countryList.join("、");
+  const sys = "你是东南亚 TikTok 电商带货文案专家，精通印尼语、泰语、越南语、马来语和菲律宾英语的本地化营销表达。你写的文案要有痛点开场、利益点、场景代入和行动号召，语气口语化、有网感，符合当地文化（印尼/马来注意清真、泰国注意防晒场景、越南注意年轻潮流、菲律宾用口语英语）。";
+  const user = `请为以下产品，分别写 ${countryList.length} 个国家的 TikTok 种草文案。\n\n产品：${p.name}\n卖点：${p.sellpoints.join("、") || "优质好物"}\n价格：${p.price || "未定价"}\n目标国家：${countryNames}\n\n要求：\n1. 每个国家各写 1 段本地语言文案（40-70 字），再加 1 段中文对照。\n2. 本地语言必须用该国语言（印尼语/泰语/越南语/马来语/菲律宾英语），不要用中文。\n3. 严格按以下 JSON 格式输出，不要输出任何其他文字：\n{"印尼":{"local":"印尼语文案","cn":"中文对照"},"泰国":{"local":"泰语文案","cn":"中文对照"},...}`;
+  const content = await callLLM([{role:"system",content:sys},{role:"user",content:user}]);
+  if(!content) return null;
+  // 解析 JSON（容错：截取第一个 { 到最后一个 }）
+  try{
+    const start = content.indexOf("{");
+    const end = content.lastIndexOf("}");
+    if(start<0 || end<=start) return null;
+    const json = JSON.parse(content.slice(start, end+1));
+    const out = {};
+    for(const c of countryList){
+      if(json[c] && json[c].local) out[c] = {local:json[c].local, cn:json[c].cn||""};
+    }
+    return Object.keys(out).length ? out : null;
+  }catch(e){
+    console.warn("LLM 返回 JSON 解析失败，退回词库：", e.message);
+    return null;
+  }
+}
+
+// 用 LLM 增强文案（异步，成功后替换对应国家的种草文案，失败静默保留词库版）
+async function enhanceWithLLM(p, countryList){
+  if(_proxyOnline === null) await healthCheck();   // 首次先探测代理
+  if(!hasApiKey()) return;
+  const llmResult = await buildGrassViaLLM(p, countryList);
+  if(!llmResult) return;
+  // 替换 currentData 里的 grass/grassCN
+  for(const country of countryList){
+    if(!currentData[country] || !llmResult[country]) continue;
+    currentData[country].grass = llmResult[country].local;
+    currentData[country].grassCN = llmResult[country].cn;
+    // 同步更新合规检查（重新扫一遍新文案）
+    const text = currentData[country].grass + " " + currentData[country].grassCN + " " + (p.sellpoints.join(" "));
+    currentData[country].issues = checkCompliance(text, country);
+    currentData[country].level = overallLevel(currentData[country].issues);
+  }
+  // 重渲染当前 tab
+  render();
+}
+
+function generate(){
+  const p = collectInput();
+  const raw = [p.name, ...p.sellpoints, p.price].join(",");
+  if(!p.name || p.name === "产品"){ alert("请先填写产品名称"); return; }
+  window._category = p.category;
+  const sp = p.sellpoints.length ? p.sellpoints.join("、") : "优质好物";
+  const price = p.price || "价格优惠";
+
+  // ===== 产品核验（新）=====
+  const verifyItems = validateProduct(p);
+  const hasError = verifyItems.some(i=>i.level==="err");
+
+  const result = {};
+  const countryList = p.selectedCountries;
+  for(const country of countryList){
+    if(!KB[country]) continue;
+    const m = KB[country];
+    const tags = m.hashtags[p.category]||m.hashtags["通用"];
+    // 用营销感引擎生成文案（本地语言 + 中文对照）
+    const grassObj = buildGrass(p, country);
+    const grass = grassObj.local;      // 本地语言（发布用）
+    const grassCN = grassObj.cn;       // 中文对照（运营核对）
+
+    // 分镜脚本（本地语言 + 中文对照，AIDA 结构）
+    const fab1 = fabSentence(p.sellpoints[0] || "优质好物", country);
+    const L = LOCAL_COPY[country];
+    const nameL = localizeName(p.name, country);
+    const neutral = {印尼:"produk ini",泰国:"ตัวนี้",越南:"món này",菲律宾:"this one",马来西亚:"produk ni"}[country];
+    const nameShowL = nameL || neutral;
+    // 挑命中本地词库的卖点作主卖点
+    const hitLocs = p.sellpoints.map(sp=>localizeSp(sp,country)).filter(l=>l.benefit);
+    const loc1 = hitLocs[0] || null;
+    const benefitL1 = loc1 ? loc1.benefit : "";
+    const painL = loc1 ? loc1.pain : null;
+    const script = [
+      `[0-3秒] 痛点开场: ${L.hookTpl[0].replace("{pain}", painL || benefitL1 || nameShowL).replace("{name}",nameShowL).replace("{benefit}",benefitL1 || nameShowL)}`,
+      `[3-10秒] 产品展示: ${nameShowL}${benefitL1 ? " — " + benefitL1 : ""}`,
+      `[10-15秒] 利益+转化: ${L.cta[0]} ${tags[1]}`
+    ];
+    const scriptCN = [
+      `[0-3秒] 痛点开场: ${fab1.pain ? fab1.pain + "？" : m.hook[0]}`,
+      `[3-10秒] 产品展示: ${p.name}——${fab1.feature||p.sellpoints[0]}，${fab1.benefit}`,
+      `[10-15秒] 利益+转化: ${m.cta[0]} ${tags[1]}`
+    ];
+
+    // 直播话术（本地语言版 + 中文版）
+    const d = LIVE_DIFF[country];
+    const live = {};
+    const liveCN = {};
+    for(const stage in LIVE_STRUCTURE){
+      liveCN[stage] = LIVE_STRUCTURE[stage].replace("{product}",p.name).replace("{hook}",d.hook).replace("{sellpoint}",sp).replace("{scenario}",d.scenario).replace("{price}",price).replace("{urgency}",d.urgency).replace("{c2a}",d.c2a).replace("{service}",d.service);
+      // 本地语言直播话术（复用本地 CTA/语气词）
+      const lcta = L.cta[0];
+      live[stage] = `${L.exclaim[0]} ${liveCN[stage]}`;
+    }
+
+    // 合规（检查本地文案 + 中文卖点）
+    const text = grass + " " + grassCN + " " + (p.sellpoints.join(" "));
+    const issues = checkCompliance(text, country);
+    result[country] = {flag:m.flag, lang:m.lang, style:m.style, grass, grassCN, script, scriptCN, tags, live, liveCN, issues, level:overallLevel(issues)};
+  }
+
+  // 生成 FAB 拆解（供展示）
+  const fabBreakdown = p.sellpoints.map(spItem=>{
+    const fab = fabSentence(spItem, "印尼");
+    return {sp:spItem, feature:fab.feature, pain:fab.pain, benefit:fab.benefit, hit:fab.hit};
+  });
+
+  currentData = result;
+  productInfo = {name:p.name, sellpoints:p.sellpoints, price:p.price, category:p.category, audience:detectAudience(raw), flag:"🏷️", verify:verifyItems, hasError, fabBreakdown};
+  document.getElementById("parsedInfo").innerHTML = `已生成 <b>${countryList.length}</b> 个国家的文案：<b>${p.name}</b>（${p.category}）${hasError?' · <span style="color:#b91c1c">⚠️ 有地方要注意，点「检查结果」看看</span>':''}`;
+  document.getElementById("result").style.display = "block";
+  render();
+  // 有错误时自动切到核验 tab
+  if(hasError){ switchTab(null, "verify"); }
+  // 若已配置 API key，后台异步用 LLM 增强文案（失败静默保留词库版）
+  enhanceWithLLM(p, countryList);
+}
+
+function render(){
+  renderGrass();
+  renderVerify();
+  renderLive();
+  renderCompliance();
+  renderCost();
+  renderImage();
+  renderRadar();
+  renderPremium();
+  switchTab(null, currentTab);
+}
+
+function pill(level){
+  const map = {green:["green","🟢 安全"],yellow:["yellow","🟡 建议"],red:["red","🔴 必改"]};
+  const m = map[level];
+  return `<span class="pill ${m[0]}">${m[1]}</span>`;
+}
+
+function renderVerify(){
+  const pane = document.getElementById("verifyPane");
+  if(!productInfo) return;
+  const v = productInfo.verify || [];
+  const okCount = v.filter(i=>i.level==="ok").length;
+  const warnCount = v.filter(i=>i.level==="warn").length;
+  const errCount = v.filter(i=>i.level==="err").length;
+  let items = "";
+  for(const it of v){
+    items += `<div class="verify-item ${it.level}"><span class="icon">${it.icon}</span><div><div>${it.text}</div><div style="font-size:12px;color:var(--sub)">${it.tip}</div></div></div>`;
+  }
+  const statusText = errCount>0 ? `🔴 ${errCount} 项必改` : (warnCount>0 ? `🟡 ${warnCount} 项建议` : "🟢 全部通过");
+  const statusColor = errCount>0 ? "#b91c1c" : (warnCount>0 ? "#92400e" : "#047857");
+
+  // FAB 卖点拆解表
+  let fabHtml = "";
+  const fabs = productInfo.fabBreakdown || [];
+  if(fabs.length){
+    fabHtml = `<div class="sec"><div class="sec-title">FAB 卖点拆解（参数 → 利益，营销感来源）</div><ul class="fab-list">`;
+    for(const f of fabs){
+      if(f.hit){
+        fabHtml += `<li><span class="f">【${f.sp}】</span> ${f.pain ? "痛点："+f.pain+" → " : ""}<span class="b">利益：${f.benefit}</span></li>`;
+      } else {
+        fabHtml += `<li><span class="f">【${f.sp}】</span> ⚠️ 未命中 FAB 词库，按通用「实打实的好处」处理，建议换更具体的卖点词</li>`;
+      }
+    }
+    fabHtml += `</ul></div>`;
+  }
+
+  pane.innerHTML = `
+    <div class="verify-wrap">
+      <div class="verify-card">
+        <div class="verify-head">🔍 产品核验 <span style="font-weight:600;font-size:13px;color:${statusColor}">${statusText}</span></div>
+        ${items}
+        <div class="premium-tip" style="margin-top:10px">💡 核验逻辑（借鉴开源项目 E-ComMate「从源头防瞎编」）：<b>文案必须基于真实产品信息展开，不能凭空编造</b>。品名无效/纯数字直接拦截，缺卖点、品类未识别给黄牌提示，高风险宣称词（医疗/绝对化）提前预警。</div>
+      </div>
+      <div class="verify-card">
+        <div class="verify-head">📋 营销卖点翻译结果</div>
+        ${fabHtml}
+      </div>
+    </div>`;
+}
+
+function renderGrass(){
+  const pane = document.getElementById("grassPane");
+  pane.innerHTML = "";
+  for(const country in currentData){
+    const d = currentData[country];
+    const tags = d.tags.map(t=>`<span class="tag">${t}</span>`).join("");
+    const script = d.script.map(l=>`<div class="script-line">${l}</div>`).join("");
+    const scriptCN = (d.scriptCN||[]).map(l=>`<div class="script-line" style="color:#9ca3af">${l}</div>`).join("");
+    pane.innerHTML += `
+      <div class="card">
+        <div class="card-top">
+          <div class="country">${d.flag} ${country} <span class="lang">${d.lang}</span></div>
+          ${pill(d.level)}
+        </div>
+        <div class="sec"><div class="sec-title">种草文案 · 本地语言（发布用）</div><div class="sec-text" style="font-weight:600">${d.grass}</div></div>
+        <div class="sec"><div class="sec-title" style="color:#9ca3af">中文对照（运营核对）</div><div class="sec-text" style="color:#6b7280">${d.grassCN}</div></div>
+        <div class="sec"><div class="sec-title">15 秒分镜脚本（本地语言）</div>${script}</div>
+        <div class="sec"><div class="sec-title" style="color:#9ca3af">脚本中文对照</div>${scriptCN}</div>
+        <div class="sec"><div class="sec-title">本土 hashtag</div><div class="hashtags">${tags}</div></div>
+      </div>`;
+  }
+}
+
+function renderLive(){
+  const pane = document.getElementById("livePane");
+  pane.innerHTML = "";
+  for(const country in currentData){
+    const d = currentData[country];
+    let html = "";
+    let htmlCN = "";
+    for(const stage in d.live){
+      html += `<div class="live-stage"><span class="st">【${stage}】</span>${d.live[stage]}</div>`;
+      htmlCN += `<div class="live-stage" style="color:#9ca3af"><span class="st">【${stage}】</span>${d.liveCN[stage]}</div>`;
+    }
+    pane.innerHTML += `
+      <div class="card">
+        <div class="card-top">
+          <div class="country">${d.flag} ${country} <span class="lang">${d.lang}</span></div>
+        </div>
+        <div class="sec"><div class="sec-title">直播话术 · 本地语言</div>${html}</div>
+        <div class="sec"><div class="sec-title" style="color:#9ca3af">中文对照</div>${htmlCN}</div>
+      </div>`;
+  }
+}
+
+function renderCompliance(){
+  const pane = document.getElementById("compliancePane");
+  pane.innerHTML = "";
+  for(const country in currentData){
+    const d = currentData[country];
+    let issuesHtml = "";
+    if(d.issues.length){
+      for(const iss of d.issues){
+        const cls = iss.level==="red"?"red":"yellow";
+        const cat = CAT_CN[iss.cat]||iss.cat;
+        issuesHtml += `<div class="issue ${cls}"><span class="cat">${iss.level==="red"?"🔴":"🟡"} [${cat}]</span> 命中『${iss.word}』</div>`;
+      }
+    } else {
+      issuesHtml = `<div class="issue yellow">✅ 无风险项</div>`;
+    }
+    pane.innerHTML += `
+      <div class="card">
+        <div class="card-top">
+          <div class="country">${d.flag} ${country} <span class="lang">${d.lang}</span></div>
+          ${pill(d.level)}
+        </div>
+        <div class="sec"><div class="sec-title">合规预检（双轨）</div>${issuesHtml}</div>
+      </div>`;
+  }
+}
+
+function switchTab(btn, name){
+  currentTab = name;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  else document.querySelector(`.tab[onclick*="${name}"]`).classList.add("active");
+  document.getElementById("grassPane").style.display = name==="grass"?"grid":"none";
+  document.getElementById("verifyPane").style.display = name==="verify"?"block":"none";
+  document.getElementById("livePane").style.display = name==="live"?"grid":"none";
+  document.getElementById("compliancePane").style.display = name==="compliance"?"grid":"none";
+  document.getElementById("costPane").style.display = name==="cost"?"block":"none";
+  document.getElementById("imagePane").style.display = name==="image"?"block":"none";
+  document.getElementById("radarPane").style.display = name==="radar"?"block":"none";
+  document.getElementById("premiumPane").style.display = name==="premium"?"block":"none";
+}
+
+// ===== 成本/运费核算（确定性公式，对接采购/行政）=====
+const FREIGHT_RATES = {
+  "印尼":{first:28.0,extra:8.0,div:5000,duty:0.10},
+  "泰国":{first:18.5,extra:8.0,div:5000,duty:0.20},
+  "越南":{first:21.3,extra:8.0,div:5000,duty:0.20},
+  "菲律宾":{first:26.7,extra:8.0,div:5000,duty:0.10},
+  "马来西亚":{first:23.8,extra:8.0,div:5000,duty:0.10}
+};
+const PLATFORM = {commission:0.05,fulfillment:3.0,storage:0.5,ad_rate:0.15};
+
+function calcFirstMile(chargeableKg, country){
+  const r = FREIGHT_RATES[country];
+  if(chargeableKg <= 0.5) return r.first;
+  const extraUnits = Math.ceil((chargeableKg - 0.5) / 0.5);
+  return r.first + extraUnits * r.extra;
+}
+
+function renderCost(){
+  const pane = document.getElementById("costPane");
+  if(!productInfo) return;
+  const p = productInfo;
+  // 默认参数（可改）
+  const fob = parseFloat(p.price) ? parseFloat(p.price) * 0.25 : 15; // 采购价≈售价25%估
+  const actualKg = 0.3, L = 15, W = 10, H = 5;
+  const country = "印尼";
+  const price = parseFloat(p.price) || 59;
+
+  const r = FREIGHT_RATES[country];
+  const volWeight = (L*W*H)/r.div;
+  const chargeable = Math.max(actualKg, volWeight);
+  const firstMile = calcFirstMile(chargeable, country);
+  const duty = fob * r.duty;
+  const prep = 1.0;
+  const landed = fob + firstMile + duty + prep;
+  const commission = price*PLATFORM.commission, ad = price*PLATFORM.ad_rate;
+  const amazonCut = commission + PLATFORM.fulfillment + PLATFORM.storage + ad;
+  const net = price - landed - amazonCut;
+  const breakeven = (landed + PLATFORM.fulfillment + PLATFORM.storage)/(1 - PLATFORM.commission - PLATFORM.ad_rate);
+  const netRate = price>0 ? (net/price*100) : 0;
+
+  pane.innerHTML = `
+    <div class="cost-wrap">
+      <div class="premium-intro">💰 <b>成本/运费核算</b> · ${p.name} · 目标国：${country} · 费率来源：极兔国际2024 / TikTok Shop物流指南</div>
+      <div class="cost-grid">
+        <div class="cost-field"><label>采购价 FOB（¥）</label><input id="cFob" type="number" value="${fob.toFixed(2)}" oninput="recalcCost()"></div>
+        <div class="cost-field"><label>售价（¥）</label><input id="cPrice" type="number" value="${price.toFixed(2)}" oninput="recalcCost()"></div>
+        <div class="cost-field"><label>实重（kg）</label><input id="cW" type="number" value="${actualKg}" oninput="recalcCost()"></div>
+        <div class="cost-field"><label>目标国</label><select id="cCountry" onchange="recalcCost()">${Object.keys(FREIGHT_RATES).map(c=>`<option ${c===country?"selected":""}>${c}</option>`).join("")}</select></div>
+        <div class="cost-field"><label>尺寸 长×宽×高（cm）</label><input id="cDim" type="text" value="${L}×${W}×${H}" oninput="recalcCost()"></div>
+        <div class="cost-field"><label>发货件数（分摊头程）</label><input id="cQty" type="number" value="1" oninput="recalcCost()"></div>
+      </div>
+      <table class="cost-table" id="costTable"></table>
+      <div class="cost-compare-title">🌏 五国到岸成本横向对比（同一产品、同规格，仅目标国不同）</div>
+      <div style="overflow-x:auto"><table class="cost-table cost-compare-table" id="compareTable"></table></div>
+      <div class="premium-tip">💡 这是<b>确定性公式</b>，零依赖离线可算，不会错。默认参数为估算（采购价≈售价25%、履约费¥3、广告15%），上线后接真实费率/汇率即可。核心提醒：<b>体积重=长×宽×高÷5000，取实重与体积重较大值计费</b>——轻抛货最容易漏算的就是这一项。</div>
+    </div>`;
+  recalcCost();
+}
+
+function recalcCost(){
+  const fob = parseFloat(document.getElementById("cFob").value) || 0;
+  const price = parseFloat(document.getElementById("cPrice").value) || 0;
+  const actualKg = parseFloat(document.getElementById("cW").value) || 0;
+  const country = document.getElementById("cCountry").value;
+  const dims = document.getElementById("cDim").value.split(/[×xX*]/).map(Number);
+  const L = dims[0]||0, W = dims[1]||0, H = dims[2]||0;
+  const qty = parseFloat(document.getElementById("cQty").value) || 1;
+
+  const r = FREIGHT_RATES[country];
+  const volWeight = (L*W*H)/r.div;
+  const chargeable = Math.max(actualKg, volWeight);
+  const firstMile = calcFirstMile(chargeable, country);
+  const duty = fob * r.duty;
+  const prep = 1.0;
+  const landed = fob + firstMile + duty + prep;
+  const commission = price*PLATFORM.commission, ad = price*PLATFORM.ad_rate;
+  const amazonCut = commission + PLATFORM.fulfillment + PLATFORM.storage + ad;
+  const net = price - landed - amazonCut;
+  const gross = price - landed;
+  const breakeven = (landed + PLATFORM.fulfillment + PLATFORM.storage)/(1 - PLATFORM.commission - PLATFORM.ad_rate);
+  const netRate = price>0 ? (net/price*100) : 0;
+  const netCls = net>=0 ? "cost-pos" : "cost-neg";
+
+  document.getElementById("costTable").innerHTML = `
+    <tr><th>成本项</th><th>说明</th><th class="num">金额（¥）</th></tr>
+    <tr><td>采购价 FOB</td><td>工厂报价</td><td class="num">${fob.toFixed(2)}</td></tr>
+    <tr><td>头程运费</td><td>计费重 ${chargeable.toFixed(2)}kg（实重${actualKg}kg/体积重${volWeight.toFixed(2)}kg 取大）</td><td class="num">${firstMile.toFixed(2)}</td></tr>
+    <tr><td>进口关税</td><td>税率 ${(r.duty*100).toFixed(0)}%</td><td class="num">${duty.toFixed(2)}</td></tr>
+    <tr><td>预处理</td><td>贴标/包装</td><td class="num">${prep.toFixed(2)}</td></tr>
+    <tr class="total"><td>单件到岸成本</td><td colspan="2" class="num">${landed.toFixed(2)}</td></tr>
+    <tr><td>平台佣金</td><td>${(PLATFORM.commission*100).toFixed(0)}%</td><td class="num">${commission.toFixed(2)}</td></tr>
+    <tr><td>履约费</td><td>平台物流操作</td><td class="num">${PLATFORM.fulfillment.toFixed(2)}</td></tr>
+    <tr><td>仓储费</td><td>月摊</td><td class="num">${PLATFORM.storage.toFixed(2)}</td></tr>
+    <tr><td>广告费</td><td>${(PLATFORM.ad_rate*100).toFixed(0)}%</td><td class="num">${ad.toFixed(2)}</td></tr>
+    <tr class="total"><td>平台抽成合计</td><td colspan="2" class="num">${amazonCut.toFixed(2)}</td></tr>
+    <tr><td>毛利</td><td>售价 − 到岸成本</td><td class="num ${gross>=0?"cost-pos":"cost-neg"}">${gross.toFixed(2)}</td></tr>
+    <tr class="total"><td>净利润</td><td>净利率 ${netRate.toFixed(1)}%</td><td class="num ${netCls}">${net.toFixed(2)}</td></tr>
+    <tr><td>保本价</td><td>低于此价亏本</td><td class="num">${breakeven.toFixed(2)}</td></tr>
+    <tr><td>库存 ROI</td><td>净利润 ÷ 到岸成本</td><td class="num ${netCls}">${landed>0?(net/landed*100).toFixed(1):"0.0"}%</td></tr>`;
+
+  renderCompare(fob, price, actualKg, L, W, H, country);
+}
+
+function renderCompare(fob, price, actualKg, L, W, H, selected){
+  const rows = [];
+  let minLanded = Infinity, maxLanded = -Infinity, minNet = Infinity, maxNet = -Infinity;
+  const landedMap = {}, netMap = {};
+  for(const c in FREIGHT_RATES){
+    const r = FREIGHT_RATES[c];
+    const vol = (L*W*H)/r.div;
+    const chg = Math.max(actualKg, vol);
+    const fm = calcFirstMile(chg, c);
+    const duty = fob * r.duty;
+    const prep = 1.0;
+    const landed = fob + fm + duty + prep;
+    const amazonCut = price*PLATFORM.commission + PLATFORM.fulfillment + PLATFORM.storage + price*PLATFORM.ad_rate;
+    const net = price - landed - amazonCut;
+    landedMap[c] = landed; netMap[c] = net;
+    if(landed < minLanded) minLanded = landed;
+    if(landed > maxLanded) maxLanded = landed;
+    if(net < minNet) minNet = net;
+    if(net > maxNet) maxNet = net;
+    rows.push({c, r, vol, chg, fm, duty, prep, landed, net});
+  }
+
+  let html = `<tr><th>目标国</th><th>首重0.5kg</th><th>体积重kg</th><th>头程运费</th><th>关税(税率)</th><th>单件到岸成本</th><th>净利润</th><th>净利率</th></tr>`;
+  for(const row of rows){
+    const isSel = row.c === selected;
+    const isMinL = row.landed === minLanded;
+    const isMaxN = row.net === maxNet;
+    const netRate = price>0 ? (row.net/price*100) : 0;
+    const landedCls = isMinL ? "best" : (row.landed===maxLanded ? "worst" : "");
+    const netCls = row.net>=0 ? "c-pos" : "c-neg";
+    html += `<tr ${isSel?'style="background:#eef2ff"':""}>
+      <td><b>${KB[row.c]?KB[row.c].flag:""} ${row.c}</b>${isSel?' <span style="font-size:11px;color:var(--brand)">●当前</span>':""}</td>
+      <td class="num">${row.r.first.toFixed(1)}</td>
+      <td class="num">${row.vol.toFixed(2)}</td>
+      <td class="num">${row.fm.toFixed(2)}</td>
+      <td class="num">${row.duty.toFixed(2)} (${(row.r.duty*100).toFixed(0)}%)</td>
+      <td class="num ${landedCls}">${row.landed.toFixed(2)}${isMinL?' ⭐':''}</td>
+      <td class="num ${netCls}${isMaxN&&row.net>=0?' best':''}">${row.net.toFixed(2)}${isMaxN&&row.net>=0?' ⭐':''}</td>
+      <td class="num ${netCls}">${netRate.toFixed(1)}%</td>
+    </tr>`;
+  }
+  document.getElementById("compareTable").innerHTML = html;
+}
+
+// ===== 一键出爆款图（品类×图型×国家 提示词引擎）=====
+// 依据：TikTok Shop 官方报告 + 电商图提示词工程开源方案（五要素骨架 + 爆款五图型）
+// 核心结论：TikTok ≠ 亚马逊，白底图是转化杀手；高饱和撞色背景 + 生活场景图 CTR 高 2.3~3 倍；东南亚暖色调转化高 21%
+
+// 品类 → 材质/形态/特写细节（提示词里的「产品事实描述」零件）
+const CAT_MATERIAL = {
+  "美妆": {
+    texture: "creamy luxurious texture, soft-focus cosmetic bottle with gold cap",
+    detail: "macro close-up of the cream's smooth swirled texture, tiny water droplets on surface",
+    angle: "45-degree three-quarter view",
+    props: "a few eucalyptus leaves and a small stone bowl"
+  },
+  "食品": {
+    texture: "steaming hot, garnished with fresh herbs, glossy appetizing finish",
+    detail: "extreme close-up of texture with visible steam and condensation",
+    angle: "top-down flat lay 45-degree",
+    props: "ingredients scattered, wooden board, linen napkin"
+  },
+  "家居": {
+    texture: "premium matte finish, clean modern design, subtle texture",
+    detail: "close-up showing material weave and surface detail",
+    angle: "45-degree perspective with product in use",
+    props: "minimal styling, one plant, warm wood surface"
+  },
+  "服饰": {
+    texture: "high-quality fabric with visible weave, natural drape",
+    detail: "fabric weave and stitching detail macro",
+    angle: "worn on model, street candid style",
+    props: "urban street or cozy cafe backdrop"
+  },
+  "数码": {
+    texture: "matte metal body, precise machined edges, subtle reflection",
+    detail: "macro of textured surface and reflective highlights",
+    angle: "slight low-angle 15-degree hero shot",
+    props: "dark gradient backdrop with neon accent light"
+  },
+  "母婴": {
+    texture: "soft pastel, BPA-free matte, rounded safe design",
+    detail: "close-up of soft-touch surface",
+    angle: "soft top-down with baby-friendly styling",
+    props: "soft toys, pastel cloth, warm nursery"
+  },
+  "通用": {
+    texture: "premium commercial product finish, accurate material",
+    detail: "macro close-up revealing texture and build quality",
+    angle: "45-degree three-quarter view",
+    props: "minimal clean props"
+  }
+};
+
+// 爆款图型模板库（五种 TikTok 高转化图型，直接可用）
+// 每套含：名称 / 用途 / 提示词骨架（{product}{material}{angle}{light}{bg}{constraint}）/ 画幅 / 权重建议
+const IMG_SHOT_TYPES = [
+  {
+    id:"hero", name:"撞色主图", use:"信息流第一触点·抓眼球", ratio:"1:1 或 3:4",
+    en:"bold color-block hero shot",
+    prompt:`{product}, {material}, centered with 70% product + 30% bold saturated color-block background (high-contrast clash with product color), {angle}, dramatic studio lighting with rim light, clear focal point, TikTok viral product hero, hyper-realistic commercial photography, 8K detail`,
+    why:"白底图在 TikTok 会被信息流吞掉；撞色高对比背景 CTR 高 2.3~3 倍"
+  },
+  {
+    id:"lifestyle", name:"场景使用图", use:"代入感·降广告感", ratio:"3:4",
+    en:"lifestyle in-context shot",
+    prompt:`{product}, {material}, caught in real use in a natural setting ({scene}), authentic lifestyle photography, natural window light, shallow depth of field f/1.8, product stays the obvious subject (60%+ of frame), warm cozy atmosphere, subtle film grain, real lifestyle not staged fake, 8K`,
+    why:"真人场景图在东南亚转化比纯产品图高 41%；产品必须保持主体，别拍成氛围照"
+  },
+  {
+    id:"info", name:"信息卡图", use:"规格卖点可视化", ratio:"1:1",
+    en:"clean infographic card",
+    prompt:`{product}, {material}, centered with clean negative space around (top 1/3 kept empty for text), 3-4 icon callouts area reserved, large readable layout, minimal flat-design background, professional product render, crisp edges, no text on image (text added later)`,
+    why:"电池/容量/材质等规格故事，一条一个卖点，最多 6 个词，适配滑动速度"
+  },
+  {
+    id:"compare", name:"前后对比图", use:"转化神图·信任构建", ratio:"1:1",
+    en:"before/after split comparison",
+    prompt:`split comparison layout, left side {product} result ({benefit}), right side dull/before state, same angle same light same background, one-glance readable contrast, clean modern infographic style, no clutter, professional comparison sheet, honest subtle contrast (not exaggerated)`,
+    why:"美妆/清洁/家居的转化神图；但别夸大到失真，否则退货率反噬店铺评分"
+  },
+  {
+    id:"social", name:"社交证明图", use:"从众心理·促下单", ratio:"1:1",
+    en:"social-proof frame",
+    prompt:`{product}, {material}, centered with reserved empty badge area (for review-style overlay like stars and sold count added later), clean premium background, warm inviting tone, product clear and sharp, no text on image itself, high-contrast thumbnail-friendly composition`,
+    why:"年轻人看从众信号下单；只填真实数据，造假违反平台政策且易被买家识破"
+  }
+];
+
+// 国家 → 场景 + 色彩倾向（本地化 + 暖色转化优势）
+const IMG_SCENES = {
+  "印尼": {scene:"cozy Muslim family bedroom with warm light, halal-certified lifestyle, soft prayer mat and batik textile accents", color:"warm terracotta + cream + gold", vibe:"温馨家庭 + 清真信任"},
+  "泰国": {scene:"bright tropical beach / poolside with sunscreen summer vibe, sunlight and palm shadows", color:"high-saturation aqua + coral + sunny yellow", vibe:"清凉 + 防晒 + 高饱和明亮"},
+  "越南": {scene:"trendy vanity desk with ring light and youthful aesthetic, urban Gen-Z vibe", color:"pastel pink + mint + soft purple", vibe:"网红梳妆台 + 潮流滤镜"},
+  "菲律宾": {scene:"affordable everyday home setting, English caption sticker style, budget-friendly vibe", color:"bright cheerful blue + yellow + white", vibe:"平价亲民 + 英语贴片"},
+  "马来西亚": {scene:"clean minimalist bilingual (Malay + English) setting, halal label, modern simple home", color:"clean green + white + warm beige", vibe:"双语 + 清真 + 干净简约"}
+};
+
+// 通用负向词（出图稳定性核心，所有套图共用）
+const NEG_PROMPT = "text, watermark, logo, signature, bad anatomy, extra limbs, deformed, blurry, low quality, oversaturated, plastic look, floating, cropped product, distorted shape, extra holes, mismatched proportions, messy background, too many objects, ugly, cartoon, illustration, 3d render, fake skin";
+
+// 出图参数（开源模型通用参考）
+const IMG_PARAMS = "CFG 7-9 · Sampler DPM++ 2M Karras · Steps 30-50 · 1024x1024 / 1344x768 · Negative 见下方通用负向词";
+
+// 组装一段完整专业提示词（五要素骨架）
+// 品名优先转英文品类词（出图引擎对英文理解最准），取不到用中性英文词
+function buildPrompt(p, country, shot){
+  const mat = CAT_MATERIAL[p.category] || CAT_MATERIAL["通用"];
+  const sc = IMG_SCENES[country];
+  const enName = localizeName(p.name, "菲律宾") || "the product";
+  const mainSp = p.sellpoints[0] || "";
+  const benefit = p.sellpoints.length ? (fabSentence(p.sellpoints[0], country).benefit) : "visible quality upgrade";
+  return shot.prompt
+    .replace(/\{product\}/g, enName)
+    .replace(/\{material\}/g, mat.texture)
+    .replace(/\{angle\}/g, mat.angle)
+    .replace(/\{scene\}/g, sc.scene)
+    .replace(/\{benefit\}/g, benefit);
+}
+function renderImage(){
+  const pane = document.getElementById("imagePane");
+  if(!productInfo) return;
+  const p = productInfo;
+  const sc = IMG_SCENES["印尼"];
+  const mat = CAT_MATERIAL[p.category] || CAT_MATERIAL["通用"];
+
+  // 五国场景概览
+  let sceneCards = "";
+  for(const country in IMG_SCENES){
+    const s = IMG_SCENES[country];
+    sceneCards += `<div class="card"><div class="card-top"><div class="country">${KB[country].flag} ${country}</div></div><div class="sec"><div class="sec-title">本地化场景</div><div class="img-scene">${s.scene}</div></div><div class="sec"><div class="sec-title">色彩倾向</div><div class="script-line">${s.color} · ${s.vibe}</div></div></div>`;
+  }
+
+  // 五种图型模板（品类已填充），展示完整提示词
+  let shotCards = "";
+  for(const shot of IMG_SHOT_TYPES){
+    const prompt = buildPrompt(p, "印尼", shot);
+    shotCards += `
+      <div class="card">
+        <div class="card-top">
+          <div class="country">🎨 ${shot.name} <span class="lang">${shot.en}</span></div>
+          <span class="tag">${shot.ratio}</span>
+        </div>
+        <div class="sec"><div class="sec-title">用途：${shot.use}</div></div>
+        <div class="sec"><div class="sec-title">完整提示词（可直接投喂 SDXL / Flux / 即梦 / ComfyUI）</div>
+          <div class="script-line" style="white-space:pre-wrap;word-break:break-word">${prompt}</div>
+        </div>
+        <div class="sec"><div class="sec-title">为什么有效</div><div class="img-scene">${shot.why}</div></div>
+      </div>`;
+  }
+
+  pane.innerHTML = `
+    <div class="image-wrap">
+      <div class="premium-intro">🎨 <b>一键出爆款图</b> · ${p.name} · ${p.category} · 开源工作流：BiRefNet(抠图) + ControlNet(保形) + Flux/SDXL(生成) + IC-Light(光影)</div>
+
+      <div class="premium-tip">💡 <b>核心理念</b>：TikTok 不是亚马逊，白底图在信息流里是「转化杀手」。以下五种图型是按 TikTok Shop 官方报告 + 电商图提示词工程提炼的<b>高转化套图模板</b>，每张都已填好你的品类材质，改一下国家场景即可生成当地爆款图。单张云端出图成本 &lt; ¥0.5。</div>
+
+      <div class="premium-tip" style="background:#fef2f2;border-color:#fca5a5">🚫 <b>通用负向词（Negative Prompt，必填，稳定性提升核心）</b><div class="script-line" style="margin-top:6px;word-break:break-word">${NEG_PROMPT}</div></div>
+
+      <div class="premium-tip">⚙️ <b>出图参数参考</b>：${IMG_PARAMS}</div>
+
+      <div class="sec-title" style="font-size:15px;font-weight:700;margin:14px 0 8px;color:var(--txt)">📐 五图型套图模板（品类已适配：${p.category}）</div>
+      <div class="countries">${shotCards}</div>
+
+      <div class="sec-title" style="font-size:15px;font-weight:700;margin:14px 0 8px;color:var(--txt)">🌏 五国本地化场景（把上面任意图型的场景换成目标国）</div>
+      <div class="countries">${sceneCards}</div>
+    </div>`;
+}
+
+// ===== 爆款雷达（同类爆款共性提炼 + 款式发布建议，可直接落地）=====
+// 品类爆款知识库：基于东南亚 TikTok Shop 各品类爆款共性规律 + 选品方法论
+// 结构：trend(爆款共性) / borrow(3个可借鉴款式方向) / diff(差异化切入点) / timing(最佳发布时间) / firstShot(首发图型)
+const CAT_TREND = {
+  "美妆": {
+    trend:"东南亚美妆爆款三大共性：①主打「便宜大碗+功效可视化」（前后对比/上脸实测）；②清真认证是印尼/马来硬门槛；③防晒、美白、补水是高频刚需词",
+    borrow:["「5秒淡纹」即时功效可视化款（用前后对比图拉转化）","「身体乳+香水」二合一香氛款（蹭香水品类热度）","「旅行装/小样礼盒」试用装款（低客单拉首单，复购导正装）"],
+    diff:"避开纯「补水保湿」红海，打「清真认证 + 香氛留香 + 敏感肌可用」三合一差异化",
+    timing:"印尼/马来 20:00-22:00（斋月另排）；泰国/越南 19:00-23:00；菲律宾 18:00-22:00",
+    firstShot:"场景使用图（真人上脸）+ 前后对比图",
+    keywords:["glowing skin","halal skincare","affordable skincare","sun protection","glass skin"]
+  },
+  "食品": {
+    trend:"东南亚食品爆款共性：①「重口味+辣度可视化」；②「量大实惠」家庭装；③本地口味本地化（印尼甜辣、泰国冬阴功、越南鱼露、马来咖喱）",
+    borrow:["「一口爆汁」吃播同款视觉款（特写流心/拉丝/蒸汽）","「家庭分享装」大容量款（Beli buat keluarga 卖点）","「网红联名/限定口味」话题款（蹭节日热度）"],
+    diff:"避开大通货，打「清真认证 + 独特口味记忆点 + 便携单包」组合",
+    timing:"印尼/马来 12:00-14:00、20:00-23:00；泰国/越南 11:00-13:00、19:00-22:00",
+    firstShot:"撞色主图 + 吃播特写（蒸汽/流心）",
+    keywords:["makanan viral","street food","halal food","makanan enak","cemilan"]
+  },
+  "家居": {
+    trend:"东南亚家居爆款共性：①「收纳/清洁」刚需+前后对比；②「小空间友好」多功能；③「高颜值」ins风拍照好看",
+    borrow:["「一键收纳」可视化款（before/after 神图）","「多功能合一」节省空间款（小户型刚需）","「ins风颜值」拍照款（奶油色/原木风）"],
+    diff:"打「小空间适配 + 高颜值出片 + 真实收纳容量」三点，用对比图说话",
+    timing:"五国均 19:00-23:00 晚间高峰；周末白天做家务场景内容",
+    firstShot:"前后对比图 + 场景使用图",
+    keywords:["home organization","declutter","small space","home aesthetic","storage hacks"]
+  },
+  "服饰": {
+    trend:"东南亚服饰爆款共性：①「显瘦/显高」强卖点+真人上身；②「百搭」一件多穿；③清真友好（长袖/头巾搭配）是马来/印尼刚需",
+    borrow:["「显瘦神裤」真人上身对比款（同一人不同裤对比）","「百搭基础款」一件搭5套款（换装视频）","「头巾友好」modest fashion 款（马来/印尼市场蓝海）"],
+    diff:"打「真人上身 + 尺码适配 + 清真友好搭配」；东南亚尺码需比国内偏小一码",
+    timing:"印尼/马来 20:00-22:00；泰国/越南 19:00-23:00；菲律宾 18:00-22:00",
+    firstShot:"场景使用图（真人街拍/换装）+ 撞色主图",
+    keywords:["ootd","fashion viral","modest fashion","baju kurung","affordable fashion"]
+  },
+  "数码": {
+    trend:"东南亚数码爆款共性：①「性价比+参数可视化」；②「续航/降噪/快充」等硬参数标签；③「百元级」价格带最卷",
+    borrow:["「续航王」大电量款（参数标签图）","「降噪/音质」卖点特写款（细节特写图）","「百搭配件」多场景款（通勤/运动/游戏）"],
+    diff:"打「硬参数标签 + 真实续航实测 + 多设备兼容」，避免只喊「高音质」空话",
+    timing:"五国均 19:00-23:00；菲律宾/印尼游戏向 21:00 后",
+    firstShot:"信息卡图（参数标签）+ 细节特写图",
+    keywords:["gadget murah","wireless earbuds","power bank","tech review","unboxing"]
+  },
+  "母婴": {
+    trend:"东南亚母婴爆款共性：①「安全无害」强信任背书；②「实用主义」妈妈口碑传播；③「平价」高性价比",
+    borrow:["「安全材质」BPA-free 信任款（材质特写+认证标识）","「一物多用」成长型款（性价比卖点）","「妈妈实测」口碑款（真实使用场景）"],
+    diff:"打「安全认证 + 实用多功能 + 妈妈真实口碑」，用社交证明图背书",
+    timing:"印尼/马来 21:00-23:00（妈妈睡前刷手机）；周末白天",
+    firstShot:"社交证明图 + 场景使用图（宝宝真实使用）",
+    keywords:["baby products","parenting","safety certified","baby care","affordable baby"]
+  },
+  "通用": {
+    trend:"通用爆款共性：①「便宜+实用」；②「可视化效果」；③「真人/场景代入感」",
+    borrow:["「性价比」极价款（低价拉首单）","「效果可视化」对比款","「场景代入」真人使用款"],
+    diff:"聚焦一个核心卖点打透，别贪多",
+    timing:"五国均 19:00-23:00 晚间高峰",
+    firstShot:"撞色主图 + 场景使用图",
+    keywords:["viral","best seller","must have","affordable"]
+  }
+};
+
+function renderRadar(){
+  const pane = document.getElementById("radarPane");
+  if(!productInfo) return;
+  const p = productInfo;
+  const t = CAT_TREND[p.category] || CAT_TREND["通用"];
+  const mainSp = p.sellpoints[0] || "核心卖点";
+  const price = p.price || "定价";
+
+  const borrow = t.borrow.map((b,i)=>`<div class="script-line" style="margin:6px 0"><b>款式${i+1}.</b> ${b}</div>`).join("");
+  const keywords = t.keywords.map(k=>`<span class="tag">${k}</span>`).join("");
+
+  pane.innerHTML = `
+    <div class="image-wrap">
+      <div class="premium-intro">🔥 <b>爆款雷达</b> · ${p.name} · ${p.category} · 同类爆款共性提炼 + 款式发布建议（可直接落地）</div>
+
+      <div class="premium-tip">💡 <b>使用方法</b>：这是「同类爆款规律 → 你的产品怎么借鉴 → 怎么差异化 → 什么时候发、首发什么图」的完整决策链。抓取思路：用 <b>TrendRadar / TiChoo / EchoTik</b> 等工具拉取你品类的 Top 100 爆款，对照下面「爆款共性」验证，再套「借鉴款式 + 差异化切入点」定款。</div>
+
+      <div class="card">
+        <div class="card-top"><div class="country">📊 同类爆款共性规律</div></div>
+        <div class="sec"><div class="sec-title">你的品类（${p.category}）在东南亚的爆款密码</div>
+          <div class="img-scene">${t.trend}</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><div class="country">🎯 三个可直接借鉴的爆款款式方向</div></div>
+        <div class="sec">${borrow}</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><div class="country">⚡ 你的差异化切入点（避开红海）</div></div>
+        <div class="sec"><div class="sec-title">基于你当前卖点「${mainSp}」+ 定价「${price}」</div>
+          <div class="img-scene">${t.diff}</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><div class="country">🚀 款式发布建议（拿来就用）</div></div>
+        <div class="sec"><div class="sec-title">最佳发布时间</div><div class="script-line">${t.timing}</div></div>
+        <div class="sec"><div class="sec-title">首发图型（配合「一键出图」直接用）</div><div class="script-line">${t.firstShot}</div></div>
+        <div class="sec"><div class="sec-title">搜索词/标签方向（本地化）</div><div class="hashtags">${keywords}</div></div>
+      </div>
+
+      <div class="premium-tip" style="background:#fffbeb;border-color:#fde68a">⚠️ <b>诚实边界</b>：以上是<b>基于东南亚 TikTok Shop 各品类爆款的共性规律提炼</b>，不是实时抓取的某条具体链接。要「一键抓取实时爆款链接+销量数据」，需接入 <b>EchoTik / TiChoo / 灰豚数据</b> 等第三方 API（付费），或对接 <b>TrendRadar</b> 的实时热榜。当前版本先把「爆款共性+借鉴+发布策略」做成确定性可落地框架，接 API 后即可自动填充真实热款数据。</div>
+    </div>`;
+}
+
+// ===== 高端塑品话术（反义词痛点 + 人设 + 主次分明）=====
+const PREMIUM_STYLE = {
+  "资深中产": {tone:"克制、有质感、点到为止", pronoun:"您", price:"两三百", cue:"极简高端"},
+  "新锐白领": {tone:"利落、有态度、不油腻", pronoun:"你", price:"两三百", cue:"极简高端"},
+  "学生党": {tone:"平价实在、不装", pronoun:"你", price:"几十块", cue:"性价比"},
+  "宝妈": {tone:"亲切、讲实用", pronoun:"你", price:"一两百", cue:"实用安心"}
+};
+
+function renderPremium(){
+  const pane = document.getElementById("premiumPane");
+  if(!productInfo) return;
+  const p = productInfo;
+  const sp = p.sellpoints;
+  // 卖点 → 场景 → 好处（通用填充）
+  const sceneFor = {
+    "外观": "第一眼的高级感，通勤、约会、拍照都压得住",
+    "搭配": "百搭，不用为一件饰品换整套搭配",
+    "材质": "耐用、不掉色、用得久，不用频繁换新",
+    "工艺": "质感经得起细看，不掉档次",
+    "针": "敏感皮肤也能戴，不红肿不痒"
+  };
+  const spList = sp.length ? sp : ["外观","搭配","材质","针"];
+  const benefit = spList.map(s=>{
+    const key = Object.keys(sceneFor).find(k=>s.includes(k)) || s;
+    return `<li><b>${s}</b> → ${sceneFor[key]||"给生活带来实打实的好处"}</li>`;
+  }).join("");
+  const style = PREMIUM_STYLE[p.audience] || PREMIUM_STYLE["新锐白领"];
+  const name = p.name;
+  const main = spList[2] || spList[0];
+
+  // 塑品话术（模板 + 反义词痛点结构）
+  const spText = `
+    <div class="premium-block">
+      <div class="premium-label">🎯 塑品话术（约2分钟 · 人设：${p.audience || "新锐白领"} · ${style.cue}）</div>
+      <div class="premium-body">
+「姐妹，这款 ${name}，你第一眼看中的是什么？是它${spList[0]||"外观"}那种<strong>高级、耐看的质感</strong>——不是一眼廉价的浮夸，是${style.cue}该有的克制感。${spList[1]?`而且它${spList[1]}，通勤、约会、拍照都能压得住，<strong>一件顶三件</strong>。`:""}
+
+但我要跟你讲的重点，不是它好不好看，是它<strong>会不会掉色、会不会让你踩雷</strong>。市面上大多数${name}，${spList[2]?`${spList[2]}做的是最省成本的做法——普通工艺、一层了事，戴两周就开始发黑、褪色，扔了可惜，戴着又掉价。`:""}
+
+我们家这款，${main}是<strong>实打实下了成本的</strong>——不是浮在表面的东西，是<strong>一层一层做扎实</strong>，你天天戴、洗澡偶尔忘了摘，一个月后再看，还是第一次见它的样子。
+
+再跟你说一个很多姐妹最怕的点：<strong>怕过敏、怕红肿</strong>。那是因为大多数便宜货用普通针、普通材质。我们这款，${spList[3]?`${spList[3]}，用的就是<strong>对皮肤友好的标准</strong>，戴一天不红不痒。<strong>敏感皮肤，这个才是你唯一该在意的点。</strong>`:""}
+
+所以你看，好看是它的本分，<strong>不掉色、不过敏、用得住</strong>才是它值这个价的地方。${p.price?`它不便宜，${p.price}，`:""}但你买回去，不是用俩月就扔的饰品，是能陪你两三年的那件。</div>
+    </div>`;
+
+  const bijia = `
+    <div class="premium-block">
+      <div class="premium-label">💰 比价话术（≤30秒）</div>
+      <div class="premium-body">「同样${main}这个标准的${name}，你去${p.audience==="学生党"?"平台挑一挑":"品牌专柜看一圈"}，没有个两倍价下不来。我为什么能卖这个价？<strong>因为这是新号刚开播，就为攒一波口碑和回头客</strong>，利润基本让出来了。等这波卖完，价格肯定要调回去，趁现在，是真划算。」</div>
+    </div>`;
+
+  const baozhang = `
+    <div class="premium-block">
+      <div class="premium-label">🛡️ 保障话术（≤30秒）</div>
+      <div class="premium-body">「${style.pronoun}担心什么，我懂。第一，<strong>送运费险</strong>，买回去不喜欢、不合适，退回来一分钱不花。第二，<strong>支持七天无理由</strong>，店铺开了好几年、<strong>评分一直4.9往上</strong>，回头客一堆。${style.pronoun}担心的"拍完人跑了"，在我这儿不存在——我要做的是一辈子的生意，不是一锤子买卖。」</div>
+    </div>`;
+
+  const xique = `
+    <div class="premium-block">
+      <div class="premium-label">⏳ 稀缺话术（≤30秒）</div>
+      <div class="premium-body">「这批货我就备了<strong>最后几十件</strong>，为什么少？因为${main}这个工艺，成本摆在那，我不可能一次压太多货。${style.pronoun}等下一批，至少半个月，还得是这个价。现在拍的，今天就能发；等没了，就只能看别人用了。」</div>
+    </div>`;
+
+  pane.innerHTML = `
+    <div class="premium-wrap">
+      <div class="premium-intro">${productInfo.flag||""} <b>${name}</b> · 人群：${p.audience||"新锐白领"} · 卖点：${spList.join(" / ")} ${p.price?`· 客单价：${p.price}`:""}</div>
+      <div class="premium-sellpoint"><div class="premium-label">📋 卖点 → 场景 → 好处（结构拆解）</div><ul class="premium-list">${benefit}</ul></div>
+      ${spText}${bijia}${baozhang}${xique}
+      <div class="premium-tip">💡 反义词痛点已内置：每个卖点都配了"便宜替代的坏处"，这是"越听越想买"的开关。详见《塑品话术框架_可复刻模板.md》</div>
+    </div>`;
+}
+
+// ===== 爆品搜索（对齐 TikTok Creative Center 热门商品榜结构 + 预留实时 API）=====
+// 数据结构：title/productId/region/categoryName/imageUrl/price/currency/totalSaleCnt/growthRate/rank/shopName/creatorCount/rating/带入用的中文名+卖点+价格
+const TREND_DATA = [
+  {title:"Whitening Body Lotion SPF50", region:"印尼", category:"美妆", categoryName:"Beauty & Personal Care", price:"Rp59.000", currency:"IDR", totalSaleCnt:"2.4万+", sale7d:"+312%", growthRate:312, rank:1, shopName:"GlowHouse Official", creatorCount:"1.2k 达人", rating:"4.8", cn:"保湿身体乳", sp:"温和不刺激,补水锁水,SPF50防晒", priceCN:"59元"},
+  {title:"Portable Mini Juicer Cup 400ml", region:"泰国", category:"家居", categoryName:"Home & Living", price:"฿299", currency:"THB", totalSaleCnt:"8.1万+", sale7d:"+187%", growthRate:187, rank:2, shopName:"HomePro TH", creatorCount:"3.4k 达人", rating:"4.7", cn:"便携榨汁杯", sp:"大容量400ml,USB充电,一键清洗", priceCN:"69元"},
+  {title:"Wireless Earbuds ANC 40H", region:"菲律宾", category:"数码", categoryName:"Electronics", price:"₱599", currency:"PHP", totalSaleCnt:"12.6万+", sale7d:"+256%", growthRate:256, rank:3, shopName:"TechSquad PH", creatorCount:"5.8k 达人", rating:"4.6", cn:"蓝牙耳机", sp:"主动降噪ANC,续航40小时,蓝牙5.3", priceCN:"99元"},
+  {title:"Modest Long Dress - Batik", region:"马来西亚", category:"服饰", categoryName:"Fashion", price:"RM79", currency:"MYR", totalSaleCnt:"3.2万+", sale7d:"+143%", growthRate:143, rank:4, shopName:"RayaStyle MY", creatorCount:"890 达人", rating:"4.9", cn:"优雅长裙", sp:"显瘦版型,亲肤面料,百搭通勤", priceCN:"129元"},
+  {title:"Serum Vitamin C 30ml", region:"越南", category:"美妆", categoryName:"Beauty & Personal Care", price:"₫199.000", currency:"VND", totalSaleCnt:"6.7万+", sale7d:"+228%", growthRate:228, rank:5, shopName:"MiuMiu Beauty VN", creatorCount:"2.1k 达人", rating:"4.7", cn:"维C精华", sp:"提亮肤色,淡化痘印,温和不刺激", priceCN:"79元"},
+  {title:"Collapsible Storage Box Set", region:"印尼", category:"家居", categoryName:"Home & Living", price:"Rp45.000", currency:"IDR", totalSaleCnt:"15.3万+", sale7d:"+95%", growthRate:95, rank:6, shopName:"Rapih Store", creatorCount:"4.2k 达人", rating:"4.8", cn:"折叠收纳盒", sp:"大容量收纳,可折叠省空间,加厚耐压", priceCN:"39元"},
+  {title:"Anti-Frizz Hair Serum", region:"泰国", category:"美妆", categoryName:"Beauty & Personal Care", price:"฿159", currency:"THB", totalSaleCnt:"4.9万+", sale7d:"+176%", growthRate:176, rank:7, shopName:"Silky Hair TH", creatorCount:"1.7k 达人", rating:"4.6", cn:"护发精油", sp:"抚平毛躁,留香持久,清爽不油腻", priceCN:"49元"},
+  {title:"Baby Feeding Bottle Set", region:"菲律宾", category:"母婴", categoryName:"Baby & Kids", price:"₱349", currency:"PHP", totalSaleCnt:"7.4万+", sale7d:"+132%", growthRate:132, rank:8, shopName:"MamaCare PH", creatorCount:"960 达人", rating:"4.9", cn:"婴儿奶瓶套装", sp:"BPA-free安全材质,防胀气设计,耐摔", priceCN:"79元"},
+  {title:"Instant Kopi Susu 3-in-1", region:"马来西亚", category:"食品", categoryName:"Food & Beverage", price:"RM19.9", currency:"MYR", totalSaleCnt:"9.8万+", sale7d:"+118%", growthRate:118, rank:9, shopName:"KopiKing MY", creatorCount:"3.1k 达人", rating:"4.5", cn:"三合一咖啡", sp:"香浓顺滑,速溶方便,马来西亚风味", priceCN:"29元"},
+  {title:"Travel Neck Pillow Memory Foam", region:"越南", category:"家居", categoryName:"Home & Living", price:"₫129.000", currency:"VND", totalSaleCnt:"5.6万+", sale7d:"+161%", growthRate:161, rank:10, shopName:"Comfort VN", creatorCount:"1.3k 达人", rating:"4.7", cn:"记忆棉颈枕", sp:"记忆棉回弹,护颈支撑,便携收纳", priceCN:"45元"}
+];
+
+let trendFilter = "all";
+function renderTrend(){
+  const grid = document.getElementById("trendGrid");
+  if(!grid) return;
+  const list = trendFilter==="all" ? TREND_DATA : TREND_DATA.filter(t=>t.region===trendFilter);
+  grid.innerHTML = list.map(t=>{
+    const flag = {印尼:"🇮🇩",泰国:"🇹🇭",越南:"🇻🇳",菲律宾:"🇵🇭",马来西亚:"🇲🇾"}[t.region];
+    const up = t.growthRate>0 ? `<span class="up">▲${t.growthRate}%</span>` : `<span class="down">▼${Math.abs(t.growthRate)}%</span>`;
+    return `
+      <div class="trend-card">
+        <div class="tc-top">
+          <div class="tc-name">${t.title}</div>
+          <div class="tc-rank">#${t.rank}</div>
+        </div>
+        <div class="tc-tags">
+          <span class="tc-tag">${flag} ${t.region}</span>
+          <span class="tc-tag">${t.category}</span>
+          <span class="tc-tag">⭐${t.rating}</span>
+        </div>
+        <div class="tc-stats">
+          <div class="tc-stat">销量 <b>${t.totalSaleCnt}</b></div>
+          <div class="tc-stat">7天 <b>${up}</b></div>
+          <div class="tc-stat">价格 <b>${t.price}</b></div>
+        </div>
+        <button class="tc-btn" onclick="importTrend(${t.rank})">⚡ 用这个产品试试</button>
+      </div>`;
+  }).join("");
+  // 恢复筛选按钮高亮（只在 trendBody 里的筛选按钮）
+  document.querySelectorAll("#trendBody .fbtn").forEach(b=>{
+    b.classList.remove("fbtn-active");
+    if(b.textContent.includes(trendFilter==="all"?"全部":trendFilter)) b.classList.add("fbtn-active");
+  });
+}
+function filterTrend(btn, region){
+  trendFilter = region;
+  renderTrend();
+}
+function toggleTrend(){
+  const body = document.getElementById("trendBody");
+  const btn = document.querySelector(".trend-bar .fbtn");
+  const open = body.style.display !== "none";
+  body.style.display = open ? "none" : "block";
+  if(btn) btn.textContent = open ? "展开看看 ▾" : "收起 ▴";
+  if(!open) renderTrend();
+}
+function importTrend(rank){
+  const t = TREND_DATA.find(x=>x.rank===rank);
+  if(!t) return;
+  document.getElementById("nameInput").value = t.cn;
+  document.getElementById("sellpointInput").value = t.sp;
+  document.getElementById("priceInput").value = (t.priceCN||"").replace(/[^\d.]/g,'');
+  generate();
+  // 滚动到结果
+  document.getElementById("result").scrollIntoView({behavior:"smooth"});
+}
+
+// ===== 实时抓取 API 预留接口（接 EchoTik / Apify 后启用）=====
+// 用法：填入 API key 后，把 fetchLiveTrend() 的返回接到 TREND_DATA，即可切换为真实实时爆品
+const LIVE_API = {
+  // EchoTik 商品榜单 API（https://www.share.echotik.live/zh/api-service）
+  echotik: {
+    endpoint: "https://open.echotik.live/api/v1/...",  // 占位，替换为真实接口
+    key: "",   // 填入 EchoTik API Key
+    map: { title:"title", region:"region", category:"category", price:"price", sale:"sales", growth:"growth_rate", rank:"rank", shop:"shop_name", creator:"video_count", rating:"rating" }
+  },
+  // Apify TikTok Trending Products（https://apify.com/burbn/tiktok-trending-products-scraper）
+  apify: {
+    endpoint: "https://api.apify.com/v2/acts/burbn~tiktok-trending-products-scraper/run-sync-get-dataset-items",
+    token: "",  // 填入 Apify API Token
+    region: "ID",  // 支持 ID/TH/VN/PH/MY 等
+    period: 7
+  }
+};
+async function fetchLiveTrend(){
+  // 伪代码：接真实 API 后取消注释并替换
+  // const res = await fetch(LIVE_API.echotik.endpoint, {headers:{Authorization:`Bearer ${LIVE_API.echotik.key}`}});
+  // const data = await res.json();
+  // TREND_DATA.length = 0; data.forEach(row=>TREND_DATA.push(mapRow(row))); renderTrend();
+  console.warn("当前为演示数据。填入 EchoTik/Apify API key 后调用 fetchLiveTrend() 即可拉取真实爆品。");
+  return TREND_DATA;
+}
+
+// ===== LLM 智能选品（按品类生成爆品推荐，演示用，非实时抓取）=====
+async function aiSelect(){
+  await healthCheck();
+  if(!hasApiKey()){ openKeyPanel(); return; }
+  const btn = document.getElementById("aiSelectBtn");
+  if(btn){ btn.textContent = "⏳ AI 正在选品…"; btn.disabled = true; }
+  const sys = "你是东南亚 TikTok 电商选品专家，熟悉印尼、泰国、越南、菲律宾、马来西亚的热销品类和爆款规律。";
+  const user = `请推荐 10 个当前在东南亚 TikTok 上热卖的爆款商品，要求：\n1. 覆盖印尼、泰国、越南、菲律宾、马来西亚 5 个国家（尽量均匀分布）。\n2. 覆盖多个品类（美妆、家居、3C数码、服饰、食品等）。\n3. 严格按以下 JSON 数组格式输出，不要输出任何其他文字：\n[{"title":"商品英文标题","cn":"商品中文名","region":"印尼","category":"美妆","price":"Rp59,000","priceCN":"59元","totalSaleCnt":"120万","growthRate":35,"rating":4.8,"sp":"卖点1,卖点2"}]`;
+  const content = await callLLM([{role:"system",content:sys},{role:"user",content:user}]);
+  if(btn){ btn.textContent = "🤖 AI 智能选品"; btn.disabled = false; }
+  if(!content){ alert("AI 选品失败，请检查 Key 是否正确、网络是否可达。"); return; }
+  try{
+    const start = content.indexOf("[");
+    const end = content.lastIndexOf("]");
+    if(start<0 || end<=start){ alert("AI 返回格式不对，请重试"); return; }
+    const arr = JSON.parse(content.slice(start, end+1));
+    if(!Array.isArray(arr) || !arr.length){ alert("AI 没返回有效数据"); return; }
+    // 转成 TREND_DATA 结构
+    TREND_DATA.length = 0;
+    arr.forEach((row,i)=>{
+      TREND_DATA.push({
+        rank: i+1,
+        title: row.title || row.cn || "爆款商品",
+        cn: row.cn || row.title || "爆款商品",
+        region: row.region || "印尼",
+        category: row.category || "通用",
+        price: row.price || "",
+        priceCN: row.priceCN || "",
+        totalSaleCnt: row.totalSaleCnt || "10万+",
+        growthRate: Number(row.growthRate) || 20,
+        rating: Number(row.rating) || 4.7,
+        sp: row.sp || row.cn || "高性价比"
+      });
+    });
+    trendFilter = "all";
+    renderTrend();
+    // 展开爆品区
+    const body = document.getElementById("trendBody");
+    if(body){ body.style.display = "block"; }
+    const toggle = document.querySelector(".trend-bar .fbtn");
+    if(toggle) toggle.textContent = "收起 ▴";
+    document.getElementById("trendWrap").scrollIntoView({behavior:"smooth"});
+  }catch(e){
+    alert("AI 返回解析失败：" + e.message);
+  }
+}
+
+// ===== 代理状态面板（Key 已移到服务端 .env，前端只检测代理是否在线）=====
+function openKeyPanel(){
+  const panel = document.getElementById("keyPanel");
+  if(panel){
+    panel.style.display = "block";
+    refreshProxyStatus();
+  }
+}
+function closeKeyPanel(){
+  const panel = document.getElementById("keyPanel");
+  if(panel) panel.style.display = "none";
+}
+async function refreshProxyStatus(){
+  const box = document.getElementById("keyStatusBox");
+  if(box){ box.innerHTML = "正在检测代理…"; }
+  await healthCheck();
+  if(box){
+    if(_proxyOnline === true){
+      box.style.background = "#ecfdf5"; box.style.color = "#047857";
+      box.innerHTML = "✅ 代理在线，服务端已配置 Key。<br>智能模式已启用，文案/选品由 AI 实时生成。";
+    }else{
+      box.style.background = "#fef2f2"; box.style.color = "#b91c1c";
+      box.innerHTML = "⚠️ 代理未连接。<br>请先启动本地代理：在 <code>tk-agent-demo</code> 目录运行 <code>python proxy.py</code>，并把 Key 填进 <code>.env</code>。<br>（未连接时仍可用，走本地词库离线模式。）";
+    }
+  }
+  updateKeyStatus();
+}
+function updateKeyStatus(){
+  const el = document.getElementById("keyStatus");
+  if(!el) return;
+  if(hasApiKey()){ el.innerHTML = '<span class="tag" style="background:#ecfdf5;color:#047857">✓ 智能模式（代理在线）</span>'; }
+  else{ el.innerHTML = '<span class="tag">离线模式（未连代理）</span>'; }
+}
+
+function fillDemo(){
+  document.getElementById("nameInput").value = "保湿身体乳";
+  document.getElementById("sellpointInput").value = "温和不刺激, 补水锁水";
+  document.getElementById("priceInput").value = "59";
+  generate();
+}
+function fillEarring(){
+  document.getElementById("nameInput").value = "罗马金色耳环";
+  document.getElementById("sellpointInput").value = "外观古典金, 百搭通勤晚宴, 高温电镀8层工艺, 925银针";
+  document.getElementById("priceInput").value = "239";
+  generate();
+  switchTab(null,"premium");
+}
+function fillRisk(){
+  document.getElementById("nameInput").value = "美白身体乳";
+  document.getElementById("sellpointInput").value = "全球最好第一美白, 100%根治暗沉";
+  document.getElementById("priceInput").value = "59";
+  generate();
+}
+
+// 根据输入识别人群
+function detectAudience(raw){
+  if(/中产|白领|高端|极简|轻奢|通勤|商务/.test(raw)) return "资深中产";
+  if(/学生|平价|学生党/.test(raw)) return "学生党";
+  if(/宝妈|宝宝|妈妈|家庭/.test(raw)) return "宝妈";
+  return "新锐白领";
+}
+
+// 初始加载：先渲染爆品搜索、探测代理状态，再加载示例
+updateKeyStatus();
+renderTrend();
+fillDemo();
+// 异步探测代理（不影响离线模式立即可用）
+healthCheck().then(()=>updateKeyStatus());
+
+</script>
+</body>
+</html>

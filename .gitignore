@@ -1,0 +1,33 @@
+# ===== 敏感信息（绝对不能提交）=====
+.env
+*.env
+!*.env.example
+.env.local
+.env.*.local
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+dist/
+build/
+
+# ===== 系统/编辑器 =====
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# ===== WorkBuddy 本地数据（不提交）=====
+.workbuddy/
+
+# ===== 日志/临时 =====
+*.log
+tmp/
+temp/

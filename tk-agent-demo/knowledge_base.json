@@ -1,0 +1,196 @@
+{
+  "meta": {
+    "说明": "五国知识库。合规词表、热门hashtag、市场数据均有权威出处；话术模板为AI生成占位，需母语者改写。",
+    "核实时间": "2026-10-21",
+    "数据来源": {
+      "合规词表": "TikTok Shop《内容政策(东南亚)》AIGC红线、印尼《清真产品保障法》(2014/33号+2024/42号条例)、泰国《化妆品法(2015)》+FDA警示、越南《广告法》、各国FDA声明",
+      "热门hashtag": "TikTok官方披露 + FastMoss/EchoTik第三方数据 + 2025-2026行业报告（见《可靠数据源清单.md》）",
+      "市场数据": "Momentum Works & Tabcut 2025报告、TikTok Shop官方披露",
+      "话术模板": "【AI生成占位，非真实本地语料】需母语者改写后使用"
+    }
+  },
+  "countries": {
+    "印尼": {
+      "language": "印尼语",
+      "code": "ID",
+      "religion": "伊斯兰教为主（穆斯林占比87%）",
+      "content_style": "性价比 + 清真认证 + 家庭场景（AOV约5美元，购买频次全球1.8倍）",
+      "templates": {
+        "hook": ["全场最低价，买到就是赚到！", "Halal 认证，全家放心用！", "印尼妈妈都在回购的好物！"],
+        "cta": ["点击下方链接，限时优惠别错过！", "现在下单，还送赠品！", "库存有限，手慢无！"],
+        "note": "AI生成占位，需母语者改写（真实风格参考：印尼文案常带情绪化表达与emoji，如 COCOKK BGTTTT）"
+      },
+      "sellpoints_by_category": {
+        "美妆": ["Halal 认证 + 安心", "平价优质 + 高性价比", "本土口碑 + 回购率高"],
+        "家居": ["全家适用 + 高性价比", "耐用 + 口碑好"],
+        "食品": ["Halal 认证 + 美味", "本土口味 + 高性价比"],
+        "服饰": ["时尚 + 高性价比", "舒适 + 百搭"],
+        "通用": ["高性价比 + 实用", "品质保证 + 口碑"]
+      },
+      "hashtags_by_category": {
+        "美妆": ["#CantikOnABudget", "#DupeMakeupIndonesia", "#skincarehemat", "#makeupmurah"],
+        "家居": ["#fyp", "#viral", "#rekomendasi", "#hemat"],
+        "食品": ["#fyp", "#viral", "#halal", "#makanan"],
+        "服饰": ["#fyp", "#viral", "#fashion", "#ootd"],
+        "通用": ["#fyp", "#viral", "#promo", "#rekomendasi"]
+      },
+      "compliance": {
+        "religious": ["猪肉", "酒", "酒精", "猪油", "暴露", "比基尼", "宗教玩笑", "宗教冒犯"],
+        "medical": ["治疗", "治愈", "消炎", "抗敏", "根治", "美白", "祛斑", "脱发", "祛痘", "杀死细菌", "消除皱纹"],
+        "ad_ban": ["最好", "第一", "100%", "绝对", "最佳", "最安全", "纯天然", "无副作用", "医生推荐"],
+        "sensitive": ["政治", "种族"]
+      },
+      "product_compliance": {
+        "美妆": "需 KEMENKES（印尼食药监）认证；宣称 Halal 须实际有 BPJPH 认证（2026-10-17 起化妆品强制，无证最高罚 50 亿印尼盾）",
+        "食品": "需 BPJPH 清真认证；进口食品需 BPOM 注册",
+        "通用": "宣称 Halal 须有 BPJPH 认证"
+      },
+      "special_notes": "美妆需 KEMENKES 认证；宣称 Halal 须产品实际有 BPJPH 认证（2026-10-17 起化妆品强制）"
+    },
+    "泰国": {
+      "language": "泰语",
+      "code": "TH",
+      "religion": "佛教为主",
+      "content_style": "颜值 + 防晒场景 + 轻松幽默（高价商品占比高，重品质体验）",
+      "templates": {
+        "hook": ["颜值党的秘密武器！", "泰式清凉感，夏天必备！", "试过一次就回不去了！"],
+        "cta": ["点击下单，清凉一夏！", "限时特惠，赶快抢！", "别犹豫，加入购物车！"],
+        "note": "AI生成占位，需母语者改写（真实参考：泰国内容偏好'痛点引入+解决方案'结构，晚8-10点发布最佳）"
+      },
+      "sellpoints_by_category": {
+        "美妆": ["亮白 + 不黏腻", "防晒 + 清凉感", "颜值在线 + 体验感强"],
+        "家居": ["设计美观 + 实用", "耐用 + 高性价比"],
+        "食品": ["风味独特 + 美味", "正宗 + 口碑好"],
+        "服饰": ["时尚 + 显气质", "舒适 + 百搭"],
+        "通用": ["实用 + 高性价比", "品质 + 体验好"]
+      },
+      "hashtags_by_category": {
+        "美妆": ["#BeautyReview", "#tiktokbeauty", "#tiktokป้ายยา", "#รีวิวบิวตี้"],
+        "家居": ["#TikTokMadeMeBuyIt", "#ThailandTikTokShop", "#fyp", "#ของใช้"],
+        "食品": ["#TikTokMadeMeBuyIt", "#fyp", "#อาหาร", "#อร่อย"],
+        "服饰": ["#fyp", "#tiktokไทย", "#แฟชั่น", "#ootd"],
+        "通用": ["#TikTokMadeMeBuyIt", "#ThailandTikTokShop", "#fyp", "#ของดี"]
+      },
+      "compliance": {
+        "religious": ["王室", "国王", "皇家标志", "佛像装饰", "不敬", "冒犯手势"],
+        "medical": ["治疗", "治愈", "消炎", "抗敏", "根治", "美白", "祛斑", "脱发", "3天减肥", "立刻变瘦", "治疗糖尿病"],
+        "ad_ban": ["最好", "第一", "100%", "绝对", "最佳", "最安全", "100%安全", "FDA认证", "医生推荐", "纯天然"],
+        "sensitive": ["政治"]
+      },
+      "product_compliance": {
+        "美妆": "化妆品禁止医疗功效宣称（美白/祛斑/治疗），需泰国 FDA 备案；禁止王室相关元素",
+        "食品": "需泰国 FDA 审核；禁止王室元素",
+        "通用": "禁止王室相关元素"
+      },
+      "special_notes": "食品需 FDA 审核；禁止王室相关元素；化妆品禁止医疗功效宣称；遵守《泰国数字广告法》第12条"
+    },
+    "越南": {
+      "language": "越南语",
+      "code": "VN",
+      "religion": "多元（佛教+民间信仰）",
+      "content_style": "潮流 + 网红同款 + 年轻活力（5美元以下主导，眼妆/假睫毛热销）",
+      "templates": {
+        "hook": ["网红都在用的爆款！", "学生党也能轻松入手！", "潮流新款，抢先体验！"],
+        "cta": ["点击下单，做最潮的你！", "限时抢购，拼手速！", "热门爆款，即将售罄！"],
+        "note": "AI生成占位，需母语者改写（真实参考：越南偏爱'混血妆容'、性价比驱动、达人背书）"
+      },
+      "sellpoints_by_category": {
+        "美妆": ["网红同款 + 潮流", "高性价比 + 口碑爆款", "适配湿热气候 + 持久"],
+        "家居": ["潮流设计 + 实惠", "实用 + 高性价比"],
+        "食品": ["网红零食 + 好吃", "实惠 + 口碑爆款"],
+        "服饰": ["潮流 + 网红同款", "舒适 + 高性价比"],
+        "通用": ["实惠 + 潮流", "实用 + 高性价比"]
+      },
+      "hashtags_by_category": {
+        "美妆": ["#goclamdep", "#reviewlamdep", "#lamdep", "#beautytok"],
+        "家居": ["#fyp", "#xuhuong", "#dodung", "#re"],
+        "食品": ["#fyp", "#xuhuong", "#doan", "#ngon"],
+        "服饰": ["#fyp", "#xuhuong", "#thoitrang", "#ootd"],
+        "通用": ["#fyp", "#xuhuong", "#review", "#hot"]
+      },
+      "compliance": {
+        "religious": ["政治", "历史敏感", "领土"],
+        "medical": ["治疗", "治愈", "消炎", "抗敏", "根治", "美白", "祛斑", "脱发", "7天祛斑", "瞬间美白", "100%治愈", "绝对有效"],
+        "ad_ban": ["最好", "第一", "100%", "绝对", "最佳", "最安全", "医生形象", "医务人员推荐"],
+        "sensitive": ["战争", "领土争议"]
+      },
+      "product_compliance": {
+        "美妆": "化妆品禁止医疗术语（治疗/消炎/抗敏）；速效宣称（7天祛斑/瞬间美白）重罚",
+        "通用": "禁售假牙护理、未盖章贵金属"
+      },
+      "special_notes": "化妆品禁止医疗术语（治疗/消炎/抗敏）；速效宣称（7天祛斑/瞬间美白）重罚；禁售假牙护理、未盖章贵金属"
+    },
+    "菲律宾": {
+      "language": "菲律宾英语",
+      "code": "PH",
+      "religion": "天主教为主",
+      "content_style": "英语口语 + 实用 + 亲民（96%销量来自10美元以下，极致性价比）",
+      "templates": {
+        "hook": ["Get that glow on a budget!", "So affordable, so good!", "You need this in your life!"],
+        "cta": ["Grab yours now, limited stock!", "Order now and save big!", "Don't miss out, click below!"],
+        "note": "AI生成占位，需母语者改写（真实参考：#bebot 等本土俚语潮流，Y2K美妆风格）"
+      },
+      "sellpoints_by_category": {
+        "美妆": ["affordable + practical", "everyday use + effective", "budget-friendly + trusted"],
+        "家居": ["practical + durable", "budget-friendly + useful"],
+        "食品": ["tasty + affordable", "yummy + budget-friendly"],
+        "服饰": ["stylish + affordable", "comfy + trendy"],
+        "通用": ["practical + affordable", "useful + budget-friendly"]
+      },
+      "hashtags_by_category": {
+        "美妆": ["#bebot", "#ForEveryKindOfBeautiful", "#makeuptutorial", "#glowup"],
+        "家居": ["#foryou", "#fyp", "#tiktokph", "#homefinds"],
+        "食品": ["#foryou", "#fyp", "#foodie", "#yummy"],
+        "服饰": ["#foryou", "#fyp", "#fashion", "#ootd"],
+        "通用": ["#foryou", "#fyp", "#tiktokph", "#musthave"]
+      },
+      "compliance": {
+        "religious": ["宗教政治敏感"],
+        "medical": ["cure", "treat", "heal", "whitening", "hair loss", "acne treatment", "anti-inflammatory", "instant results"],
+        "ad_ban": ["best", "number one", "100%", "guaranteed", "cure", "FDA approved", "doctor recommended", "100% safe"],
+        "sensitive": ["政治"]
+      },
+      "product_compliance": {
+        "美妆": "化妆品需菲律宾 FDA 批准；禁止未经批准宣称 FDA approved",
+        "通用": "禁止未经批准宣称 FDA approved"
+      },
+      "special_notes": "菲律宾需 FDA 批准声明（禁止未经批准宣称 FDA approved）"
+    },
+    "马来西亚": {
+      "language": "马来语 + 英语",
+      "code": "MY",
+      "religion": "多元（穆斯林为主，清真敏感）",
+      "content_style": "多元 + 清真认证 + 双语（护理美容占TOP10 74%，理性消费，84%详比）",
+      "templates": {
+        "hook": ["Halal & mesra keluarga!", "双语安心购，品质有保证！", "多元市场好评如潮！"],
+        "cta": ["点击下单，安心又划算！", "限时优惠，快抢！", "品质保证，放心购买！"],
+        "note": "AI生成占位，需母语者改写（真实参考：马来偏 skinimalism 极简护肤、halal-friendly）"
+      },
+      "sellpoints_by_category": {
+        "美妆": ["Halal 认证 + 温和", "极简护肤 + 有效", "品质 + 清真合规"],
+        "家居": ["实用 + 品质保证", "耐用 + 高性价比"],
+        "食品": ["Halal 认证 + 美味", "品质 + 清真合规"],
+        "服饰": ["时尚 + 品质", "舒适 + 百搭"],
+        "通用": ["实用 + 品质", "高性价比 + 口碑"]
+      },
+      "hashtags_by_category": {
+        "美妆": ["#SkinTok", "#BarrierRepair", "#DewySkin", "#BeautyTok"],
+        "家居": ["#fyp", "#tiktokmalaysia", "#rumah", "#jimat"],
+        "食品": ["#FoodTok", "#ViralFoodMalaysia", "#fyp", "#halal"],
+        "服饰": ["#fyp", "#tiktokmalaysia", "#fashion", "#ootd"],
+        "通用": ["#BeautyTok", "#tiktokmalaysia", "#fyp", "#viral"]
+      },
+      "compliance": {
+        "religious": ["猪肉", "酒", "酒精", "宗教争议", "宗教冒犯"],
+        "medical": ["治疗", "治愈", "消炎", "抗敏", "根治", "美白", "祛斑", "脱发"],
+        "ad_ban": ["最好", "第一", "100%", "绝对", "最佳", "最安全", "纯天然", "无副作用"],
+        "sensitive": ["种族", "宗教对立"]
+      },
+      "product_compliance": {
+        "美妆": "宣称 Halal 须有 JAKIM 认证；化妆品需马来西亚 NPRA 通报",
+        "通用": "禁售矫正型隐形眼镜、仿烟草产品"
+      },
+      "special_notes": "禁售矫正型隐形眼镜、仿烟草产品；Halal 宣称须产品实际有认证"
+    }
+  }
+}
