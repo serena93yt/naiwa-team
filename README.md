@@ -59,7 +59,8 @@ python proxy.py
 
 ```
 ├── 出海宝_成品试用.html    # 核心产品（单文件，双击即用）
-├── README.md
+├── README.md                # 对外项目说明（给人看）
+├── AGENTS.md                # 项目说明书（给 AI 编码助手读）
 ├── .gitignore
 ├── tk-agent-demo/           # P0 Demo + 本地代理
 │   ├── proxy.py             # 本地 LLM 代理（Key 不出浏览器）
