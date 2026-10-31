@@ -1,0 +1,202 @@
+# AGENTS.md — 项目说明书（给 AI 编码助手）
+
+> 本文件是给 AI 编码助手（Codex、Claude Code、Cursor 等）读的项目说明书。
+> 打开这个仓库后，先读本文件，你就能理解「这是什么项目、文件在哪、怎么跑、怎么改、哪些是坑」。
+
+---
+
+## 1. 项目是什么（一句话）
+
+**出海宝**：一款面向外贸商家的「东南亚五国 TikTok 运营智能体」。
+
+输入一条中文产品信息（名称 + 卖点 + 价格 + 目标国家），一键产出：
+- 五国（印尼 / 泰国 / 越南 / 菲律宾 / 马来西亚）本地语言种草文案 + 中文对照
+- 五国直播话术 + 中文对照
+- 爆款图提示词（出图 prompt）
+- 成本 / 运费五国对比核算
+- 合规预检报告（🟢 安全 / 🟡 建议 / 🔴 必改）
+- 爆品雷达 + AI 选品
+- 亚马逊 Listing（标题 / 五点 / 搜索词 / 合规）
+- 批量生成 + 数据接入 + 对话式改写
+
+**一句话价值主张**：让没有本地团队的小商家，也能批量产出「敢发、发得准」的 TikTok 内容。
+
+---
+
+## 2. 目录结构与文件职责
+
+```
+项目根目录/
+├── AGENTS.md                     ← 本文件（AI 助手说明书）
+├── README.md                     ← 对外项目说明（给人看）
+├── .gitignore                    ← 已配置：忽略 .env、__pycache__、.workbuddy
+├── 出海宝_成品试用.html           ← ★ 核心产品（单文件，15 万字符，全部功能都在里面）
+├── tk-agent-demo/                ← Python 版 P0 Demo + 本地 LLM 代理
+│   ├── proxy.py                  ← 本地 LLM 代理（Key 不出浏览器，监听 127.0.0.1:8787）
+│   ├── 启动代理.bat               ← Windows 双击启动代理
+│   ├── .env.example              ← Key 配置模板（真实 .env 不提交）
+│   ├── tk_agent.py               ← 主脚本（种草生成 + 合规预检，零依赖）
+│   ├── live_script.py            ← 直播话术生成
+│   ├── variant_generator.py      ← 微测变体生成（控制变量）
+│   ├── benchmark.py              ← 测试指标报告
+│   ├── render_html.py            ← 网页卡片渲染
+│   ├── cost_calculator.py        ← 成本/运费核算
+│   ├── knowledge_base.json       ← 五国知识库（含来源标注）
+│   ├── 可靠数据源清单.md           ← 数据出处（可追溯）
+│   ├── index.html / risk.html    ← 网页演示（全绿/标红示例）
+│   └── README.md                 ← Demo 使用说明
+└── docs/                         ← 方案与团队文档（12 份 Markdown）
+    ├── TK运营智能体参赛方案.md         ← ★ 主方案
+    ├── 评审方向细化与亚马逊板块方案.md   ← ★ 最新方向细化
+    ├── 00_项目总纲_团队接手说明书.md    ← 团队接手入口
+    ├── 团队分工与执行计划.md
+    ├── 答辩路演材料.md
+    ├── 塑品话术框架_可复刻模板.md
+    ├── 文化对照表与商业模式.md
+    ├── 内容任务卡_细化版.md / 内容细化分工清单.md
+    ├── 评审权重审查与改进.md
+    ├── 三个方向对比与选型.md
+    └── 外贸AI智能体参赛方案.md        ← ⚠️ 早期弃用选题，别用
+```
+
+---
+
+## 3. 核心产品 `出海宝_成品试用.html` 内部架构（改代码前必读）
+
+这是**单文件应用**：HTML + CSS + JS 全在一个文件里，约 15 万字符。改动时**不要拆分文件**（除非明确要求重构），保持单文件可双击打开的特性。
+
+### 3.1 顶层知识库 / 配置（都是 `const` 对象，改文案=改这里）
+
+| 行号 | 名称 | 作用 |
+|---|---|---|
+| 343 | `KB` | 五国知识库：hook/cta/sellpoints/hashtags/compliance/product（合规词表最权威） |
+| 397 | `LIVE_DIFF` | 五国直播差异化（hook/scenario/urgency/c2a/service，中文） |
+| 405 | `LIVE_STRUCTURE` | 直播话术中文字段模板（开场/讲解/逼单/催付/售后） |
+| 416 | `LIVE_LOCAL` | ★ 直播话术本地语言模板（五国×五阶段，真实本地语言） |
+| 454 | `CAT_CN` | 合规分类中文名 |
+| 455 | `CAT_KEYWORDS` | 品类识别关键词（美妆/食品/家居/服饰/数码/母婴） |
+| 528 | `FAB_DICT` | FAB 卖点库（feature/benefit/pain，41+ 条营销卖点翻译） |
+| 681 | `LOCAL_COPY` | 五国本地化语料库（hookTpl/cta/exclaim/localFab/currency） |
+| 792 | `CAT_LOCAL` | 品类本地名词库（中文品类词 → 五国本地词） |
+| 885 | `LLM_CONFIG` | LLM 端点配置（默认走本地代理 127.0.0.1:8787） |
+| 1239 | `FREIGHT_RATES` | 五国运费/关税费率 |
+| 1246 | `PLATFORM` | 平台抽成参数（佣金/履约/仓储/广告） |
+| 1404 | `CAT_MATERIAL` | 出图品类材质描述（英文提示词零件） |
+| 1451 | `IMG_SHOT_TYPES` | 五种爆款图型模板 |
+| 1485 | `IMG_SCENES` | 国家→场景+色彩（出图本地化） |
+| 1567 | `CAT_TREND` | 爆品雷达品类趋势 |
+| 1674 | `PREMIUM_STYLE` | 高端塑品话术风格 |
+| 1748 | `TREND_DATA` | 爆品演示数据（10 条） |
+| 1819 | `LIVE_API` | 预留的实时数据 API 接口（EchoTik 等，未启用） |
+| 2026 | `AMZ_FORBIDDEN` | 亚马逊绝对化禁词 |
+
+### 3.2 核心函数（改逻辑=改这里）
+
+| 函数 | 作用 |
+|---|---|
+| `parseProduct(raw)` | 解析产品输入 → 品类识别 |
+| `collectInput()` | 读取表单（名称/卖点/价格/国家勾选） |
+| `generate()` | ★ 主入口：生成五国文案/直播/合规/成本，调 render |
+| `buildGrass(p, country)` | 生成单国种草文案（本地语言 + 中文对照） |
+| `localizeSp(sp, country)` | 中文卖点 → 本地利益词 |
+| `localizeName(name, country)` | 中文品名 → 本地品类词（绝不留中文） |
+| `checkCompliance(text, country)` | 合规检查（双轨：内容 + 商品认证） |
+| `matchFAB(sp)` / `fabSentence()` | FAB 卖点匹配 |
+| `renderGrass/renderLive/renderCost/renderAmazon/...` | 各 tab 渲染 |
+| `switchTab(btn, name)` | tab 切换 |
+| `callLLM(messages)` | ★ 调本地代理转发 OpenAI |
+| `healthCheck()` | 探测代理是否在线 |
+| `buildGrassViaLLM()` / `enhanceWithLLM()` | LLM 增强（失败静默退回词库） |
+| `runBatch()` | 批量生成 |
+| `runDataImport()` | 数据接入（LLM 结构化榜单） |
+| `runRewrite()` | 对话式改写 |
+
+### 3.3 三条核心设计原则（改代码时务必遵守）
+
+1. **LLM 兜底**：所有 AI 功能（文案增强、选品、数据接入、改写）都是「词库先生成同步出结果 → LLM 异步增强」，LLM 失败/超时/代理不在线时**静默退回词库离线模式**，页面永不崩。
+2. **本地语言不残留中文**：本地语言文案必须通过 `localizeSp`/`localizeName`/`LIVE_LOCAL` 生成，绝不把中文直接塞进本地文案。中文只出现在「中文对照」区。
+3. **Key 不出浏览器**：LLM 请求走本地代理 `127.0.0.1:8787/chat`，Key 只存在服务端 `.env`，前端不发 `Authorization` 头。
+
+---
+
+## 4. 怎么跑起来
+
+### 4.1 核心产品（网页版，最常用）
+
+直接双击打开 `出海宝_成品试用.html` 即可，**离线也能用**（走词库）。
+
+### 4.2 启用智能模式（AI 实时生成）
+
+```bash
+cd tk-agent-demo
+# 1. 复制 .env.example 为 .env，填入 OPENAI_API_KEY
+# 2. 启动本地代理
+python proxy.py
+# 或双击 启动代理.bat
+```
+
+代理启动后，网页右上角 ⚙️ 设置会显示「✅ 代理在线」。
+
+### 4.3 Python Demo（零依赖）
+
+```bash
+cd tk-agent-demo
+python tk_agent.py                          # 五国种草 + 合规（默认示例）
+python tk_agent.py --product "保湿面霜,温和不刺激,补水锁水,89元"
+python tk_agent.py --risk                   # 违规演示
+python benchmark.py                          # 测试指标
+```
+
+---
+
+## 5. 技术栈与约束
+
+- **前端**：纯 HTML/CSS/JS，单文件，无构建、无框架、无 npm 依赖。目标浏览器 Chrome/Edge。
+- **后端代理**：纯 Python 3 标准库（`http.server` + `urllib`），零第三方依赖。
+- **Python Demo**：纯 Python 3 标准库，零依赖。
+- **LLM**：OpenAI 兼容接口，默认 `gpt-4o-mini`，走本地代理转发。
+- **环境**：Windows 10/11，Python 3.13。
+
+---
+
+## 6. 关键约定与坑（改代码前必读）
+
+### 6.1 安全红线
+
+- `.env`（含真实 OpenAI Key）**已被 `.gitignore` 忽略，绝对不能提交**。只有 `.env.example` 模板可提交。
+- 代码里**不允许硬编码任何 `sk-` 开头的真实 key**。
+
+### 6.2 已修复过的坑（避免重犯）
+
+1. **中文漏进本地文案**：曾出现印尼文案里夹「保湿身体乳」中文。解决：所有本地文案走 `CAT_LOCAL`（品类词）+ `LOCAL_COPY`（语料）+ 中性指代兜底（produk ini / ตัวนี้ / this one）。
+2. **直播话术"假本地化"**：曾是「语气词 + 中文正文」（如 `Wah! 欢迎来到直播间…`）。已修复：用 `LIVE_LOCAL` 真实本地句式替换。
+3. **`matchFAB` 返回 null**：`matchFAB(s)` 可能返回 null，调用处必须判空（`const f = matchFAB(s); f ? f.benefit : 兜底`）。
+4. **tab 按钮 class 冲突**：爆品筛选按钮和主 tab 曾都叫 `tab`，导致切换错乱。已改：筛选按钮用 `fbtn`/`fbtn-active`。
+5. **`for...in` 遍历被污染**：`currentData` 上临时挂过 `_product` 字段导致遍历异常，已移出到独立 `productInfo` 变量。
+
+### 6.3 五国本地化要点
+
+- 印尼/马来：清真（Halal）敏感，禁猪肉/酒精/宗教冒犯
+- 泰国：禁王室相关元素，防晒场景强
+- 越南：年轻潮流，禁医疗速效宣称
+- 菲律宾：英语口语，禁 cure/whitening 等医疗词
+- 马来西亚：双语（马来+英），清真合规
+
+---
+
+## 7. 给 Codex 的「待办」入口
+
+项目当前最需要的视觉/文档产出（团队已明确要做的三件事，可用本文件提供的信息生成）：
+
+1. **项目宣传图**：核心卖点 = 五国本地化 + 合规守门 + 降本（¥3000+3天 → 1分钟+几毛钱）。slogan 方向见 `docs/00_项目总纲_团队接手说明书.md` 第四节。
+2. **工作流图**：主链路 = 「填产品 → 解析品类 → 五国本地化生成（种草/直播/图/Listing）→ 合规预检 → 成本核算 → 输出」。详情见 `docs/TK运营智能体参赛方案.md`。
+3. **UI 设计**：现有产品是「向导式（3 步）+ 填表式输入 + 结果多 tab」结构，配色见 HTML 顶部 `:root` 变量（品牌蓝 `#2563eb`、紫 `#7c3aed`、浅色主题）。
+
+---
+
+## 8. 相关文档速查
+
+- 想知道「为什么这么做」→ `docs/TK运营智能体参赛方案.md`
+- 想知道「最新方向」→ `docs/评审方向细化与亚马逊板块方案.md`
+- 想知道「数据从哪来」→ `tk-agent-demo/可靠数据源清单.md`
+- 想知道「谁负责什么」→ `docs/团队分工与执行计划.md`
